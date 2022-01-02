@@ -40,7 +40,8 @@ int portA(int X, int Y)//Sync X & Y to time
     }
     if(A*ratios[X] == C - A)
     {
-        return (A*ratios[X]);
+        //check entanglement property instead
+        return (A*ratios[X]);//math simulates quantum entanglement
         //return state 1, state 2 or state 3
     }
     return 0;
@@ -81,7 +82,8 @@ int portB(int X, int Y)//Sync X & Y to time
     }
     if(B/ratios[X] == C - B)
     {
-        return (B/ratios[X]);
+         //check entanglement property instead
+        return (B/ratios[X]);//math simulates quantum entanglement
         //return state 1, state 2 or state 3
     }
     return 0;
