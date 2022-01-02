@@ -1,5 +1,6 @@
 //Copyright George Wagenknecht - 2022 - All rights reserved.
 //FTL information transfer for quantum computer, prototype code.
+//seperate port A and port B, include server at each end
 #include <iostream>
 #include <string>
 #include <vector>
@@ -88,7 +89,7 @@ int portB(int X, int Y)//Sync X & Y to time
     }
     return 0;
 }
-int main()
+int main()//server
 {
     vector<int> ratios = { 1,2,3,4,5};//use float for more precision
     bool entanglementBlocked = false;
