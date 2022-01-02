@@ -1,5 +1,5 @@
 //Copyright George Wagenknecht - 2022 - All rights reserved.
-// FTL information  transfer prototype code(aim to use more complex math, preferably one not quickly checkable, however this code can exchange a state from each port)
+// FTL information transfer prototype code(aim to use more complex math, preferably one not quickly checkable, however this code can exchange a state from each port)
 #include <iostream>
 #include <string>
 #include <vector>
