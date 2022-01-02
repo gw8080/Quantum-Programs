@@ -20,7 +20,7 @@ int main()
             //continue
             cout << "Original" << endl;
             cout << "Node A = " << A << " Node B = " << B << endl;
-            cout << "sent!" << endl;
+            cout << "Sent!" << endl;
             cout << "Node A = " << (A*ratios[X]) << " Node B = " << (B/ratios[X]) << endl;
 
             //return state 1, state 2 or state 3
