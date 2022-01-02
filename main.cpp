@@ -13,7 +13,7 @@ int main()
     vector<int> ratios = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};//use float for more precision
     for(int X = 0; X < ratios.size(); X++) //distribute code between ports and sync X, try to guess the state each port is in by bruteforce
     {
-        if(A*ratios[X] == C - A && B/ratios[X] == C - B) //ANDing represents entangled port A & port B, divide each statement and 100% blockage of wavefunction indicates sucessful transfer
+        if(A*ratios[X] == C - A && B/ratios[X] == C - B) //ANDing represents entangled port A & port B, divide each statement and 100% blockage of wavefunction indicates successful transfer
         {
             //port A = if(A*ratios[X] == C - A && Enatanglement == true)
             //port B = if(B/ratios[X] == C - B && Enatanglement == true)
