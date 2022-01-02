@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     //state:  A + B = C
-    //state 1 = 1,2,3 & state 2 =  2,2,4 & state 3 =  3,6,9 works
+    //state 1 = 1,2,3 & state 2 =  2,2,4 & state 3 =  3,6,9 works //iterate this
     int A = 3; // port A
     int B = 6; // port B
     int C = 9; // result, shared by both ports
