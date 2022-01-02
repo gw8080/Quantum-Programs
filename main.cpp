@@ -1,5 +1,16 @@
-//Copyright George Wagenknecht - 2022 - All rights reserved.
-//FTL information transfer for quantum computer, prototype code.
+/* FTL information transfer for quantum computer, prototype code.
+    Copyright (C) 2022 George Wagenknecht
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+    */
 //seperate port A and port B, include server at each end
 #include <iostream>
 #include <string>
@@ -7,13 +18,13 @@
 using namespace std;
 int portA(int X, int Y)//Sync X & Y to time
 {
-    int data = 0;//bit to send
+    int qubit = 0;//bit to send
     vector<int> ratios = { 1,2,3,4,5};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int A = 1;
     int C = 3; // result, shared by both ports
-    if(data == 0)
+    if(qubit == 0)
     {
         if(Y == 0)
         {
@@ -26,7 +37,7 @@ int portA(int X, int Y)//Sync X & Y to time
             C = 9; // result, shared by both ports
         }
     }
-    if(data == 1)
+    if(qubit == 1)
     {
         if(Y == 1)
         {
@@ -49,13 +60,13 @@ int portA(int X, int Y)//Sync X & Y to time
 }
 int portB(int X, int Y)//Sync X & Y to time
 {
-    int data = 1;//bit to send
+    int qubit = 1;//bit to send
     vector<int> ratios = { 1,2,3,4,5};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int B = 2;
     int C = 3; // result, shared by both ports
-    if(data == 0)
+    if(qubit == 0)
     {
         if(Y == 0)
         {
@@ -68,7 +79,7 @@ int portB(int X, int Y)//Sync X & Y to time
             C = 9; // result, shared by both ports
         }
     }
-    if(data == 1)
+    if(qubit == 1)
     {
         if(Y == 1)
         {
@@ -118,39 +129,39 @@ int main()//server
             cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
             if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
             {
-                cout << " Sent off!" << endl;//done
+                cout << " Teleported [off] to port A!" << endl;//done
             }
             if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 0)
             {
-                cout << " Sent on!" << endl;//done
+                cout << " Teleported [on] to port A!" << endl;//done
             }
             if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 0)
             {
-                cout << " Sent off!" << endl;//done
+                cout << " Teleported [off] to port A!" << endl;//done
             }
             if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 0)
             {
-                cout << " Sent on!" << endl;//done
+                cout << " Teleported [on] to port A!" << endl;//done
             }
             if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
             {
-                cout << " Sent on!" << endl;//done
+                cout << " Teleported [on] to port B!" << endl;//done
             }
             if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 1)
             {
-                cout << " Sent on!" << endl;//done
+                cout << " Teleported [on] to port B!" << endl;//done
             }
             if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 1)
             {
-                cout << " Sent off!" << endl;//done
+                cout << " Teleported [off] to port B!" << endl;//done
             }
             if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 1)
             {
-                cout << " Sent off!" << endl;//done
+                cout << " Teleported [off] to port B!" << endl;//done
             }
             if(teleportedToAlpha == 0 || teleportedToBeta == 0)
             {
-                cout << endl;
+                cout << " In superposition" << endl;
             }
         }
     }
