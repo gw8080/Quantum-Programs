@@ -16,7 +16,7 @@ int main()
         if(A*ratios[X] == C - A && B/ratios[X] == C - B) //ANDing represents entangled port A & port B, divide each statement and 100% blockage of wavefunction indicates sucessful transfer
         {
             //port A = if(A*ratios[X] == C - A && Enatanglement == true)
-            //port B = B/ratios[X] == C - B && Enatanglement == true)
+            //port B = if(B/ratios[X] == C - B && Enatanglement == true)
             //continue
             cout << "Original" << endl;
             cout << "Node A = " << A << " Node B = " << B << endl;
