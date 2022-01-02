@@ -9,7 +9,7 @@ int portA(int X, int Y)//Sync X & Y to time
     int data = 0;//bit to send
     vector<int> ratios = { 1,2,3,4,5};
     //state:  A + B = C
-    //state 1 = 1,2,3 & state 3 =  3,6,9 works //iterate this
+    //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int A = 1;
     int C = 3; // result, shared by both ports
     if(data == 0)
@@ -42,7 +42,7 @@ int portA(int X, int Y)//Sync X & Y to time
     {
         //check entanglement property and send time & partition information of the entanglement event instead
         return (A*ratios[X]);//math simulates quantum entanglement
-        //return state 1, state 2 or state 3
+        //return state 1 or state 2
     }
     return 0;
 }
@@ -51,7 +51,7 @@ int portB(int X, int Y)//Sync X & Y to time
     int data = 1;//bit to send
     vector<int> ratios = { 1,2,3,4,5};
     //state:  A + B = C
-    //state 1 = 1,2,3 & state 3 =  3,6,9 works //iterate this
+    //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int B = 2;
     int C = 3; // result, shared by both ports
     if(data == 0)
@@ -84,7 +84,7 @@ int portB(int X, int Y)//Sync X & Y to time
     {
         //check entanglement property and send time & partition information of the entanglement event instead
         return (B/ratios[X]);//math simulates quantum entanglement
-        //return state 1, state 2 or state 3
+        //return state 1 or state 2
     }
     return 0;
 }
