@@ -19,7 +19,7 @@ using namespace std;
 int portA(int X, int Y)//Sync X & Y to time
 {
     //do calculation
-    int qubit = 0;//bit to send
+    int qubit = 0;//entangled bit
     vector<int> ratios = { 1,2,3,4,5};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -62,7 +62,7 @@ int portA(int X, int Y)//Sync X & Y to time
 int portB(int X, int Y)//Sync X & Y to time
 {
     //do calculation
-    int qubit = 0;//bit to send
+    int qubit = 0;//entangled bit
     vector<int> ratios = { 1,2,3,4,5};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
