@@ -205,8 +205,7 @@ int main()//server
         }
         cout << endl;
         //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
-        //by entangling multiple photonic qubits using a beam splitter multiple logic gates can be performed, instantly
-
+        //by allowing the light valve to operate using a control qubit, can effectively link computation qubits in into a logical qubit.
     }
     return 0;
 }
