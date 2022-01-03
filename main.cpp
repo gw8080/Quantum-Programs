@@ -19,12 +19,11 @@
 #include <stdlib.h>
 #include <time.h>
 using namespace std;
-int frame = 100;
-int portA(int X, int Y)//Sync X & Y to time
+
+int portA(int X, int Y, int M,vector<int> data)//Sync X & Y to time
 {
     //do calculation
-    int qubit = 0;//entangled bit/Turing strip
-    qubit = rand() % 2; // simulate data
+    int qubit = data[M];//entangled bit/Turing strip
     vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -64,11 +63,10 @@ int portA(int X, int Y)//Sync X & Y to time
     }
     return 0;
 }
-int portB(int X, int Y)//Sync X & Y to time
+int portB(int X, int Y,int M,vector<int> data)//Sync X & Y to time
 {
     //do calculation
-    int qubit = 0;//entangled bit/Turing strip
-    qubit = rand() % 2; // simulate data
+    int qubit = data[M];//entangled bit/Turing strip
     vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -110,12 +108,14 @@ int portB(int X, int Y)//Sync X & Y to time
 }
 int main()//server
 {
-
+    vector<int> data = {1,0,1,1,0,0,0};
+    vector<int> dataB = {1,1,1,1,0,0,1};
+    string program = "";
+    vector<int> memory;
     srand (time(NULL));
     vector<int> ratios = { 1,2};//use float for more precision
-    for(int m = 0; m < frame; m++)
+    for(int M = 0; M < data.size(); M++)
     {
-        vector<int> memory;
         cout << "New gate(effects are simultaneous on quantum hardware)" << endl;
         bool exit = false;
         for(int Partition = 0; Partition < 2 && exit == false; Partition++)
@@ -137,48 +137,48 @@ int main()//server
                     B = 6;
                     C = 9;
                 }
-                int teleportedToAlpha = portB(T,Partition);//physical process
-                int teleportedToBeta = portA(T,Partition);//physical process
+                int teleportedToAlpha = portB(T,Partition,M,data);//physical process
+                int teleportedToBeta = portA(T,Partition,M,dataB);//physical process
                 cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
-                    memory.push_back(0);
+                    memory.insert(memory.begin(), 0);
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 0)
                 {
                     cout << " Teleported [on] to port A!" << endl;//done
-                    memory.push_back(1);
+                    memory.insert(memory.begin(), 1);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
-                    memory.push_back(0);
+                    memory.insert(memory.begin(), 0);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 0)
                 {
                     cout << " Teleported [on] to port A!" << endl;//done
-                    memory.push_back(1);
+                    memory.insert(memory.begin(), 1);
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
-                    memory.push_back(1);
+                    memory.insert(memory.begin(), 1);
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
-                    memory.push_back(1);
+                    memory.insert(memory.begin(), 1);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [off] to port B!" << endl;//done
-                    memory.push_back(0);
+                    memory.insert(memory.begin(), 0);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 1)
                 {
                     cout << " Teleported [off] to port B!" << endl;//done
-                    memory.push_back(0);
+                    memory.insert(memory.begin(), 0);
                 }
                 if(teleportedToAlpha == 0 || teleportedToBeta == 0)
                 {
@@ -189,24 +189,53 @@ int main()//server
         //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
         if(memory[0] == 1 && memory[1] == 1)
         {
+            program += "00000001 ";
             cout << "AND = True" << endl;
+            cout << "OR = True" << endl;
+            cout << "XOR = False" << endl;
         }
         if(memory[0] == 0 && memory[1] == 0)
         {
-            cout << "AND = True" << endl;
+            program += "00000010 ";
+            cout << "AND = False" << endl;
+            cout << "OR = False" << endl;
+            cout << "XOR = False" << endl;
         }
         if(memory[0] == 1 && memory[1] == 0)
         {
+            program += "00000011 ";
+            cout << "AND = False" << endl;
             cout << "OR = True" << endl;
+            cout << "XOR = True" << endl;
+
         }
         if(memory[0] == 0 && memory[1] == 1)
         {
+            program += "00000100 ";
+            cout << "AND = False" << endl;
             cout << "OR = True" << endl;
+            cout << "XOR = True" << endl;
         }
         cout << endl;
         //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
         //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
         //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
     }
+    cout << "Program: " << program << endl;
+    cout << "Input A: ";
+    for(int n = 0; n < data.size(); n++)
+    {
+        cout << data[n];
+    }
+    cout << endl;
+
+    cout << "Input B: ";
+    for(int n = 0; n < dataB.size(); n++)
+    {
+        cout << dataB[n];
+    }
+    cout << endl;
+
+    cout << "Output: ?";
     return 0;
 }
