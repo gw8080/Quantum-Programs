@@ -111,7 +111,7 @@ int main()//server
 
     vector<int> data = {1,0,1,1,0,0,0};//instead place in portA. cycle program, done instantly
     vector<int> dataB = {1,1,1,1,0,0,1};//instead place in portB. cycle data, done instantly
-    string program = "";
+    vector<int> output;
     vector<int> memory;
     srand (time(NULL));
     vector<int> ratios = { 1,2};//use float for more precision
@@ -144,44 +144,44 @@ int main()//server
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
-                    memory.insert(memory.begin(), 0);
+                    memory.push_back(0);
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 0)
                 {
                     cout << " Teleported [on] to port A!" << endl;//done
-                    memory.insert(memory.begin(), 1);
+                    memory.push_back(1);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
-                    memory.insert(memory.begin(), 0);
+                    memory.push_back(0);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 0)
                 {
                     cout << " Teleported [on] to port A!" << endl;//done
-                    memory.insert(memory.begin(), 1);
+                    memory.push_back(1);
                 }
 
                 //divide teleportation to two ports so computations can be done piecewise.
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
-                    memory.insert(memory.begin(), 1);
+                    memory.push_back(1);
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
-                    memory.insert(memory.begin(), 1);
+                    memory.push_back(1);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [off] to port B!" << endl;//done
-                    memory.insert(memory.begin(), 0);
+                    memory.push_back(0);
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 1)
                 {
                     cout << " Teleported [off] to port B!" << endl;//done
-                    memory.insert(memory.begin(), 0);
+                    memory.push_back(0);
                 }
                 if(teleportedToAlpha == 0 || teleportedToBeta == 0)
                 {
@@ -190,29 +190,47 @@ int main()//server
             }
         }
         //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
-        if(memory[n] == 1 && data[n] == 1)// one port contains memory, the other the program, should be done piecewise after dividing ports
+        bool AND = false, OR = false, XOR = false;
+        if(memory[n] == 1 && data[n] == 1)// should be done piecewise after dividing ports
         {
+            bool AND = true, OR = true, XOR = false;
             cout << "AND = True" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = False" << endl;
         }
         if(memory[n] == 0 && data[n] == 0)
         {
+            AND = false, OR = false, XOR = false;
             cout << "AND = False" << endl;
             cout << "OR = False" << endl;
             cout << "XOR = False" << endl;
         }
         if(memory[n] == 1 && data[n] == 0)
         {
+            AND = false, OR = true, XOR = true;
             cout << "AND = False" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = True" << endl;
         }
         if(memory[n] == 0 && data[n] == 1)
         {
+            AND = false, OR = true, XOR = true;
             cout << "AND = False" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = True" << endl;
+        }
+        //insert program
+        if(AND == true && n == 0)
+        {
+
+        }
+        if(OR == true && n == 3)
+        {
+
+        }
+        if(XOR == true && n == 5)
+        {
+
         }
         //if desired logic gate has the boolean value, use within a math problem...
         //check boolean values to see if program + data sucessfully ran.
@@ -221,21 +239,20 @@ int main()//server
         //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
         //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
     }
-    cout << "Program: ";
+    cout << "Input A: ";
     for(int n = 0; n < data.size(); n++)
     {
         cout << data[n];
     }
     cout << endl;
 
-    cout << "Input: ";
+    cout << "Input B: ";
     for(int n = 0; n < dataB.size(); n++)
     {
         cout << dataB[n];
     }
     cout << endl;
-
-    cout << "Output: ?";
+    cout << "Output: math phenomena = true";
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
     return 0;
