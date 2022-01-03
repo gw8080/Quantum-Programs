@@ -15,12 +15,17 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 using namespace std;
+int frame = 100;
 int portA(int X, int Y)//Sync X & Y to time
 {
     //do calculation
     int qubit = 0;//entangled bit
-    vector<int> ratios = { 1,2,3,4,5};
+    qubit = rand() % 2; // simulate data
+    vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int A = 1;
@@ -63,7 +68,8 @@ int portB(int X, int Y)//Sync X & Y to time
 {
     //do calculation
     int qubit = 0;//entangled bit
-    vector<int> ratios = { 1,2,3,4,5};
+    qubit = rand() % 2; // simulate data
+    vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int B = 2;
@@ -104,68 +110,101 @@ int portB(int X, int Y)//Sync X & Y to time
 }
 int main()//server
 {
-    vector<int> ratios = { 1,2,3,4,5};//use float for more precision
-    bool entanglementBlocked = false;
-    bool exit = false;
-    for(int Partition = 0; Partition < 2 && exit == false; Partition++)
+
+    srand (time(NULL));
+    vector<int> ratios = { 1,2};//use float for more precision
+    for(int m = 0; m < frame; m++)
     {
-        for(int T = 0; T < ratios.size() && exit == false; T++)
+        vector<int> memory;
+        cout << "New gate(effects are simultaneous on quantum hardware)" << endl;
+        bool exit = false;
+        for(int Partition = 0; Partition < 2 && exit == false; Partition++)
         {
-            int A = 1;
-            int B = 2;
-            int C = 3;
-            if(Partition == 0)
+            for(int T = 0; T < ratios.size() && exit == false; T++)
             {
-                A = 1;
-                B = 2;
-                C = 3;
-            }
-            if(Partition == 1)
-            {
-                A = 3;
-                B = 6;
-                C = 9;
-            }
-            int teleportedToAlpha = portB(T,Partition);//physical process
-            int teleportedToBeta = portA(T,Partition);//physical process
-            cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
-            if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
-            {
-                cout << " Teleported [off] to port A!" << endl;//done
-            }
-            if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 0)
-            {
-                cout << " Teleported [on] to port A!" << endl;//done
-            }
-            if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 0)
-            {
-                cout << " Teleported [off] to port A!" << endl;//done
-            }
-            if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 0)
-            {
-                cout << " Teleported [on] to port A!" << endl;//done
-            }
-            if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
-            {
-                cout << " Teleported [on] to port B!" << endl;//done
-            }
-            if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 1)
-            {
-                cout << " Teleported [on] to port B!" << endl;//done
-            }
-            if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 1)
-            {
-                cout << " Teleported [off] to port B!" << endl;//done
-            }
-            if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 1)
-            {
-                cout << " Teleported [off] to port B!" << endl;//done
-            }
-            if(teleportedToAlpha == 0 || teleportedToBeta == 0)
-            {
-                cout << " In superposition" << endl;
+                int A = 1;
+                int B = 2;
+                int C = 3;
+                if(Partition == 0)
+                {
+                    A = 1;
+                    B = 2;
+                    C = 3;
+                }
+                if(Partition == 1)
+                {
+                    A = 3;
+                    B = 6;
+                    C = 9;
+                }
+                int teleportedToAlpha = portB(T,Partition);//physical process
+                int teleportedToBeta = portA(T,Partition);//physical process
+                cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
+                if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
+                {
+                    cout << " Teleported [off] to port A!" << endl;//done
+                    memory.push_back(0);
+                }
+                if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 0)
+                {
+                    cout << " Teleported [on] to port A!" << endl;//done
+                    memory.push_back(1);
+                }
+                if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 0)
+                {
+                    cout << " Teleported [off] to port A!" << endl;//done
+                    memory.push_back(0);
+                }
+                if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 0)
+                {
+                    cout << " Teleported [on] to port A!" << endl;//done
+                    memory.push_back(1);
+                }
+                if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
+                {
+                    cout << " Teleported [on] to port B!" << endl;//done
+                    memory.push_back(1);
+                }
+                if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 1)
+                {
+                    cout << " Teleported [on] to port B!" << endl;//done
+                    memory.push_back(1);
+                }
+                if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 1)
+                {
+                    cout << " Teleported [off] to port B!" << endl;//done
+                    memory.push_back(0);
+                }
+                if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 1)
+                {
+                    cout << " Teleported [off] to port B!" << endl;//done
+                    memory.push_back(0);
+                }
+                if(teleportedToAlpha == 0 || teleportedToBeta == 0)
+                {
+                    cout << " In superposition" << endl;
+                }
             }
         }
+        //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
+        if(memory[0] == 1 && memory[1] == 1)
+        {
+            cout << "AND = True" << endl;
+        }
+        if(memory[0] == 0 && memory[1] == 0)
+        {
+            cout << "AND = True" << endl;
+        }
+        if(memory[0] == 1 && memory[1] == 0)
+        {
+            cout << "OR = True" << endl;
+        }
+        if(memory[0] == 0 && memory[1] == 1)
+        {
+            cout << "OR = True" << endl;
+        }
+        cout << endl;
+        //naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
     }
     return 0;
 }
