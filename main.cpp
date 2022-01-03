@@ -23,7 +23,7 @@ int frame = 100;
 int portA(int X, int Y)//Sync X & Y to time
 {
     //do calculation
-    int qubit = 0;//entangled bit
+    int qubit = 0;//entangled bit/Turing strip
     qubit = rand() % 2; // simulate data
     vector<int> ratios = { 1,2};
     //state:  A + B = C
@@ -67,7 +67,7 @@ int portA(int X, int Y)//Sync X & Y to time
 int portB(int X, int Y)//Sync X & Y to time
 {
     //do calculation
-    int qubit = 0;//entangled bit
+    int qubit = 0;//entangled bit/Turing strip
     qubit = rand() % 2; // simulate data
     vector<int> ratios = { 1,2};
     //state:  A + B = C
