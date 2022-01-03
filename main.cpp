@@ -204,7 +204,7 @@ int main()//server
             cout << "OR = True" << endl;
         }
         cout << endl;
-        //naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
+        //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
     }
     return 0;
 }
