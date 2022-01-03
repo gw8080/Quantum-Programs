@@ -205,7 +205,7 @@ int main()//server
         }
         cout << endl;
         //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
-        //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential  and non-linear at the same time.
+        //by allowing both light valves to operate using a previous qubit independent of the qubit sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential  and non-linear at the same time.
     }
     return 0;
 }
