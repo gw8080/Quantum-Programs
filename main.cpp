@@ -220,6 +220,7 @@ int main()//server
             cout << "OR = True" << endl;
             cout << "XOR = True" << endl;
         }
+        //once divided use data[n] & dataB[n] to check both doors at once...
         //insert program
         if(AND == true && n == 0)
         {
