@@ -20,10 +20,10 @@
 #include <time.h>
 using namespace std;
 
-int portA(int X, int Y, int M,vector<int> data)//Sync X & Y to time
+int portA(int X, int Y, int n,vector<int> data)//Sync X & Y to time
 {
     //do calculation
-    int qubit = data[M];//entangled bit/Turing strip
+    int qubit = data[n];//entangled bit/Turing strip
     vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -63,10 +63,10 @@ int portA(int X, int Y, int M,vector<int> data)//Sync X & Y to time
     }
     return 0;
 }
-int portB(int X, int Y,int M,vector<int> data)//Sync X & Y to time
+int portB(int X, int Y,int n,vector<int> data)//Sync X & Y to time
 {
     //do calculation
-    int qubit = data[M];//entangled bit/Turing strip
+    int qubit = data[n];//entangled bit/Turing strip
     vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -108,13 +108,14 @@ int portB(int X, int Y,int M,vector<int> data)//Sync X & Y to time
 }
 int main()//server
 {
-    vector<int> data = {1,0,1,1,0,0,0};
-    vector<int> dataB = {1,1,1,1,0,0,1};
+
+    vector<int> data = {1,0,1,1,0,0,0};//instead place in portA. cycle program, done instantly
+    vector<int> dataB = {1,1,1,1,0,0,1};//instead place in portB. cycle data, done instantly
     string program = "";
     vector<int> memory;
     srand (time(NULL));
     vector<int> ratios = { 1,2};//use float for more precision
-    for(int M = 0; M < data.size(); M++)
+    for(int n = 0; n < data.size(); n++)
     {
         cout << "New gate(effects are simultaneous on quantum hardware)" << endl;
         bool exit = false;
@@ -137,8 +138,8 @@ int main()//server
                     B = 6;
                     C = 9;
                 }
-                int teleportedToAlpha = portB(T,Partition,M,data);//physical process
-                int teleportedToBeta = portA(T,Partition,M,dataB);//physical process
+                int teleportedToAlpha = portB(T,Partition,n,data);//physical process
+                int teleportedToBeta = portA(T,Partition,n,dataB);//physical process
                 cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
                 {
@@ -160,6 +161,8 @@ int main()//server
                     cout << " Teleported [on] to port A!" << endl;//done
                     memory.insert(memory.begin(), 1);
                 }
+
+                //divide teleportation to two ports so computations can be done piecewise.
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
@@ -187,49 +190,45 @@ int main()//server
             }
         }
         //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
-        if(memory[0] == 1 && memory[1] == 1)
+        if(memory[n] == 1 && data[n] == 1)// one port contains memory, the other the program, should be done piecewise after dividing ports
         {
-            program += "00000001 ";//test program
             cout << "AND = True" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = False" << endl;
         }
-        if(memory[0] == 0 && memory[1] == 0)
+        if(memory[n] == 0 && data[n] == 0)
         {
-            program += "00000010 ";
             cout << "AND = False" << endl;
             cout << "OR = False" << endl;
             cout << "XOR = False" << endl;
         }
-        if(memory[0] == 1 && memory[1] == 0)
+        if(memory[n] == 1 && data[n] == 0)
         {
-            program += "00000011 ";
-            cout << "AND = False" << endl;
-            cout << "OR = True" << endl;
-            cout << "XOR = True" << endl;
-
-        }
-        if(memory[0] == 0 && memory[1] == 1)
-        {
-            program += "00000100 ";
             cout << "AND = False" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = True" << endl;
         }
+        if(memory[n] == 0 && data[n] == 1)
+        {
+            cout << "AND = False" << endl;
+            cout << "OR = True" << endl;
+            cout << "XOR = True" << endl;
+        }
+        //if desired logic gate has the boolean value, use within a math problem...
+        //check boolean values to see if program + data sucessfully ran.
         cout << endl;
         //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
         //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
         //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
     }
-    cout << "Program: " << program << endl;
-    cout << "Input A: ";
+    cout << "Program: ";
     for(int n = 0; n < data.size(); n++)
     {
         cout << data[n];
     }
     cout << endl;
 
-    cout << "Input B: ";
+    cout << "Input: ";
     for(int n = 0; n < dataB.size(); n++)
     {
         cout << dataB[n];
@@ -237,6 +236,7 @@ int main()//server
     cout << endl;
 
     cout << "Output: ?";
-    //manually code program for linked qubits, process data according to program(all at once)...
+    //manually code program for linked qubits, process logical data according to program(all at once)...
+    //A logic gate circuit should be constructed using multiple qubits
     return 0;
 }
