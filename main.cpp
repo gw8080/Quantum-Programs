@@ -189,7 +189,7 @@ int main()//server
         //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
         if(memory[0] == 1 && memory[1] == 1)
         {
-            program += "00000001 ";
+            program += "00000001 ";//test program
             cout << "AND = True" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = False" << endl;
@@ -237,5 +237,6 @@ int main()//server
     cout << endl;
 
     cout << "Output: ?";
+    //manually code program for linked qubits, process data according to program(all at once)...
     return 0;
 }
