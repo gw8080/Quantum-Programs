@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sstream>
 using namespace std;
 
 int portA(int X, int Y, int n,vector<int> data)//Sync X & Y to time
@@ -106,15 +107,36 @@ int portB(int X, int Y,int n,vector<int> data)//Sync X & Y to time
     }
     return 0;
 }
+int binaryToDecimal(int n)
+{
+    int num = n;
+    int dec_value = 0;
+
+    // Initializing base value to 1, i.e 2^0
+    int base = 1;
+
+    int temp = num;
+    while (temp)
+    {
+        int last_digit = temp % 10;
+        temp = temp / 10;
+
+        dec_value += last_digit * base;
+
+        base = base * 2;
+    }
+
+    return dec_value;
+}
 int main()//server
 {
     cout << "QBOX terminal" << endl;
     vector<int> data = {1,0,1,1,0,0,0};//instead place in portA. cycle program, done instantly
     vector<int> dataB = {1,1,1,1,0,0,1};//instead place in portB. cycle data, done instantly
     vector<int> output;
-    vector<int> memory;
+    vector<string> memory;
     srand (time(NULL));
-    vector<int> ratios = { 1,2};//use float for more precision
+    vector<int> ratios = {1,2};//use float for more precision
     cout << "Input A: ";
     for(int n = 0; n < data.size(); n++)
     {
@@ -130,6 +152,7 @@ int main()//server
     cout << endl;
 
     cout << "logical errors should be solved when ports are piecewise rather than using unfitting arrays when simulating..." << endl;
+
     for(int n = 0; n < data.size(); n++)
     {
         cout << "New gate, n=" << n << "(effects are simultaneous on quantum hardware)" << endl;
@@ -160,44 +183,44 @@ int main()//server
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
-                    memory.push_back(0);
+                    memory.push_back("0");
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 0)
                 {
                     cout << " Teleported [on] to port A!" << endl;//done
-                    memory.push_back(1);
+                    memory.push_back("1");
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
-                    memory.push_back(0);
+                    memory.push_back("0");
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 0)
                 {
                     cout << " Teleported [on] to port A!" << endl;//done
-                    memory.push_back(1);
+                    memory.push_back("1");
                 }
 
                 //divide teleportation to two ports so computations can be done piecewise.
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
-                    memory.push_back(1);
+                    memory.push_back("1");
                 }
                 if(teleportedToAlpha == 1 && teleportedToBeta == 6 && Partition == 1)
                 {
                     cout << " Teleported [on] to port B!" << endl;//done
-                    memory.push_back(1);
+                    memory.push_back("1");
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 2 && Partition == 1)
                 {
                     cout << " Teleported [off] to port B!" << endl;//done
-                    memory.push_back(0);
+                    memory.push_back("0");
                 }
                 if(teleportedToAlpha == 3 && teleportedToBeta == 6 && Partition == 1)
                 {
                     cout << " Teleported [off] to port B!" << endl;//done
-                    memory.push_back(0);
+                    memory.push_back("0");
                 }
                 if(teleportedToAlpha == 0 || teleportedToBeta == 0)
                 {
@@ -207,28 +230,28 @@ int main()//server
         }
         //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
         bool AND = false, OR = false, XOR = false;
-        if(memory[n] == 1 && data[n] == 1)// should be done piecewise after dividing ports
+        if(memory[n] == "1" && data[n] == 1)// should be done piecewise after dividing ports
         {
             AND = true, OR = true, XOR = false;
             cout << "AND = True" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = False" << endl;
         }
-        if(memory[n] == 0 && data[n] == 0)
+        if(memory[n] == "0" && data[n] == 0)
         {
             AND = false, OR = false, XOR = false;
             cout << "AND = False" << endl;
             cout << "OR = False" << endl;
             cout << "XOR = False" << endl;
         }
-        if(memory[n] == 1 && data[n] == 0)
+        if(memory[n] == "1" && data[n] == 0)
         {
             AND = false, OR = true, XOR = true;
             cout << "AND = False" << endl;
             cout << "OR = True" << endl;
             cout << "XOR = True" << endl;
         }
-        if(memory[n] == 0 && data[n] == 1)
+        if(memory[n] == "0" && data[n] == 1)
         {
             AND = false, OR = true, XOR = true;
             cout << "AND = False" << endl;
@@ -240,18 +263,11 @@ int main()//server
         //insert program
         if(AND == true && n == 0)
         {
-
         }
-        if(OR == true && n == 3)
+        if(XOR == true && n == 0)
         {
-
         }
-        if(XOR == true && n == 5)
-        {
-
-        }
-
-        //shift memory into data
+        //shift memory into data after doing multiple boolean operations
         //if desired logic gate has the boolean value, use within a math problem...
         //check boolean values to see if program + data sucessfully ran.
         cout << endl;
