@@ -22,6 +22,7 @@
 #include <bits/stdc++.h>
 int stages = 30;
 using namespace std;
+//using logic gate instructions distributed throughout qubits to process information within other qubits
 long long int stats = 0; // todo, implement extremely large numbers
 vector<int> data  =
 {
