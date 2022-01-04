@@ -27,11 +27,12 @@ vector<int> data  =
 {
     0,1,1,0,
     1,0,1,1,
+
 };//instead place in portA. cycle program, done instantly(qubits/combinations)
 vector<int> dataB =
 {
-    1,0,0,1,
-    0,1,0,0,
+    0,1,1,0,
+    1,0,1,1,
 };//instead place in portB. cycle data, done instantly(qubits/combinations)
 int portA(int X, int Y, int n,vector<int> data)//Sync X & Y to time
 {
@@ -219,76 +220,43 @@ int main()//server
             }
             //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
             //done straight after teleportation
-            bool AND = false, OR = false, XOR = false;
-            if(memory[n] == "1" && data[n] == 1)// should be done piecewise after dividing ports - duplicate in ports
+            if(n == data.size()-1)
             {
-                AND = true, OR = true, XOR = false;
-                cout << "AND = True" << endl;
-                cout << "OR = True" << endl;
-                cout << "XOR = False" << endl;
-            }
-            if(memory[n] == "0" && data[n] == 0)
-            {
-                AND = false, OR = false, XOR = false;
-                cout << "AND = False" << endl;
-                cout << "OR = False" << endl;
-                cout << "XOR = False" << endl;
-            }
-            if(memory[n] == "1" && data[n] == 0)
-            {
-                AND = false, OR = true, XOR = true;
-                cout << "AND = False" << endl;
-                cout << "OR = True" << endl;
-                cout << "XOR = True" << endl;
-            }
-            if(memory[n] == "0" && data[n] == 1)
-            {
-                AND = false, OR = true, XOR = true;
-                cout << "AND = False" << endl;
-                cout << "OR = True" << endl;
-                cout << "XOR = True" << endl;
-            }
-            //once divided use data[n] & dataB[n] to check both doors at once...
-            //logical errors should cancel when ports are piecewise rather than unfitting arrays...
-            //insert program, to be duplicated among ports
-            if(AND == true && n == 0) // checked per qubit.
-            {
-                A++;
-            }
-            if(AND == true && n == 1)
-            {
-                A++;
-            }
-            if(AND == true && n == 2)
-            {
-                A++;
-            }
-            if(AND == true && n == 3)
-            {
-                A++;
-            }
-            if(AND == true && n == 4)
-            {
-                A++;
-            }
-            if(AND == true && n == 5)
-            {
-                A++;
-            }
-            if(AND == true && n == 6)
-            {
-                A++;
-            }
-            if(AND == true && n == 7)
-            {
-                A++;
-            }
-            if(n == data.size())
-            {
+                //insert program, to be duplicated among ports
+                bool AND = false, OR = false, XOR = false;
+                int programSize = 858800;
+                for(int q = 0; q < data.size(); q++)
+                {
+                    for(int f = 0; f < programSize; f++)
+                    {
+                        if(memory[q] == "1" && data[q] == 1)// should be done piecewise after dividing ports - duplicate in ports
+                        {
+                            AND = true, OR = true, XOR = false;
+                        }
+                        if(memory[q] == "0" && data[q] == 0)
+                        {
+                            AND = false, OR = false, XOR = false;
+                        }
+                        if(memory[q] == "1" && data[q] == 0)
+                        {
+                            AND = false, OR = true, XOR = true;
+                        }
+                        if(memory[q] == "0" && data[q] == 1)
+                        {
+                            AND = false, OR = true, XOR = true;
+                        }
+                        //once divided use data[n] & dataB[n] to check both doors at once...
+                        //logical errors should cancel when ports are piecewise rather than unfitting arrays...
+                        if(XOR == true && f == rand() % programSize) // checked per qubit.
+                        {
+                            A++;
+                        }
+                    }
+                }
                 string Result = bitset<8>(A).to_string();
                 for(int h = 0; h < data.size(); h++)
                 {
-                    dataB[h] = Result[h]-48;
+                    dataB[h] = Result[h]-48;//reset data, using inferences from other port
                 }
             }
             //shift memory into data after doing multiple boolean operations
