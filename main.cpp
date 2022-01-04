@@ -138,8 +138,8 @@ int main()//server
                     B = 6;
                     C = 9;
                 }
-                int teleportedToAlpha = portB(T,Partition,n,data);//physical process
-                int teleportedToBeta = portA(T,Partition,n,dataB);//physical process
+                int teleportedToAlpha = portB(T,Partition,n,dataB);//physical process
+                int teleportedToBeta = portA(T,Partition,n,data);//physical process
                 //-----------------move to independent port----------------
                 cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
