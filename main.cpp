@@ -20,13 +20,27 @@
 #include <time.h>
 #include <sstream>
 #include <bits/stdc++.h>
-int interations = 30;
+int stages = 30;
 using namespace std;
+long long int stats = 0; // todo, implement extremely large numbers
+vector<int> data  =
+{
+    0,1,1,0,
+    1,0,1,1,
+     0,1,1,0,
 
-int portA(int X, int Y, int n,vector<int> matrix)//Sync X & Y to time
+};//instead place in portA. cycle program, done instantly(qubits/combinations)
+vector<int> dataB =
+{
+    1,0,0,1,
+    0,1,0,0,
+     1,0,0,1,
+
+};//instead place in portB. cycle data, done instantly(qubits/combinations)
+int portA(int X, int Y, int n,vector<int> data)//Sync X & Y to time
 {
     //do calculation
-    int qubit = matrix[n];//entangled bit/Turing strip
+    int qubit = data[n];//entangled bit/Turing strip
     vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -66,10 +80,10 @@ int portA(int X, int Y, int n,vector<int> matrix)//Sync X & Y to time
     }
     return 0;
 }
-int portB(int X, int Y,int n,vector<int> matrix)//Sync X & Y to time
+int portB(int X, int Y,int n,vector<int> data)//Sync X & Y to time
 {
     //do calculation
-    int qubit = matrix[n];//entangled bit/Turing strip
+    int qubit = data[n];//entangled bit/Turing strip
     vector<int> ratios = { 1,2};
     //state:  A + B = C
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
@@ -111,43 +125,36 @@ int portB(int X, int Y,int n,vector<int> matrix)//Sync X & Y to time
 }
 int main()//server
 {
-    cout << "QBOX terminal" << endl;
-    vector<int> matrix  =
-    {
-        0,1,1,0,
-        1,0,1,1,
-    };//instead place in portA. cycle program, done instantly(qubits/combinations)
-    vector<int> matrixB =
-    {
-        1,0,0,1,
-        0,1,0,0,
-    };//instead place in portB. cycle matrix, done instantly(qubits/combinations)
+
+    cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
     vector<int> output;
     vector<string> memory;
     srand (time(NULL));
     vector<int> ratios = {1,2};//use float for more precision
     cout << "logical errors should be solved when ports are piecewise rather than using unfitting arrays when simulating..." << endl;
     int A = 0;
-    for(int j = 0; j < interations; j++)
+    for(int j = 0; j < stages; j++)
     {
+
         cout << "Input A: ";
-        for(int n = 0; n < matrix.size(); n++)
+        for(int n = 0; n < data.size(); n++)
         {
-            cout << matrix[n];
+            cout << data[n];
         }
         cout << endl;
 
         cout << "Input B: ";
-        for(int n = 0; n < matrixB.size(); n++)
+        for(int n = 0; n < dataB.size(); n++)
         {
-            cout << matrixB[n];
+            cout << dataB[n];
         }
         cout << endl;
 
 
-        for(int n = 0; n < matrix.size(); n++)
+        for(int n = 0; n < data.size(); n++)
         {
-            cout << "New gate, n=" << n << "(effects are simultaneous on quantum hardware)" << endl;
+
+            cout << "New qubit, n = " << n << "(effects are simultaneous on quantum hardware)" << endl;
             bool exit = false;
             for(int Partition = 0; Partition < 2 && exit == false; Partition++)
             {
@@ -168,10 +175,11 @@ int main()//server
                         B = 6;
                         C = 9;
                     }
-                    int teleportedToAlpha = portB(T,Partition,n,matrixB);//physical process
-                    int teleportedToBeta = portA(T,Partition,n,matrix);//physical process
+                    stats+=pow (data.size(), data.size())/data.size()/data.size();
+                    int teleportedToAlpha = portB(T,Partition,n,dataB);//physical process
+                    int teleportedToBeta = portA(T,Partition,n,data);//physical process
                     //-----------------move to independent port----------------
-                    cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;//if the cycle is linked to each qubit's light valves therefore matrix & matrixB can have all combinations processed via T & partition almost instantly
+                    cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
                     if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
                     {
                         cout << " Teleported [off] to port B!" << endl;//done
@@ -221,36 +229,37 @@ int main()//server
                 }
             }
             //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
+            //done straight after teleportation
             bool AND = false, OR = false, XOR = false;
-            if(memory[n] == "1" && matrix[n] == 1)// should be done piecewise after dividing ports
+            if(memory[n] == "1" && data[n] == 1)// should be done piecewise after dividing ports - duplicate in ports
             {
                 AND = true, OR = true, XOR = false;
                 cout << "AND = True" << endl;
                 cout << "OR = True" << endl;
                 cout << "XOR = False" << endl;
             }
-            if(memory[n] == "0" && matrix[n] == 0)
+            if(memory[n] == "0" && data[n] == 0)
             {
                 AND = false, OR = false, XOR = false;
                 cout << "AND = False" << endl;
                 cout << "OR = False" << endl;
                 cout << "XOR = False" << endl;
             }
-            if(memory[n] == "1" && matrix[n] == 0)
+            if(memory[n] == "1" && data[n] == 0)
             {
                 AND = false, OR = true, XOR = true;
                 cout << "AND = False" << endl;
                 cout << "OR = True" << endl;
                 cout << "XOR = True" << endl;
             }
-            if(memory[n] == "0" && matrix[n] == 1)
+            if(memory[n] == "0" && data[n] == 1)
             {
                 AND = false, OR = true, XOR = true;
                 cout << "AND = False" << endl;
                 cout << "OR = True" << endl;
                 cout << "XOR = True" << endl;
             }
-            //once divided use matrix[n] & matrixB[n] to check both doors at once...
+            //once divided use data[n] & dataB[n] to check both doors at once...
             //logical errors should cancel when ports are piecewise rather than unfitting arrays...
             //insert program, to be duplicated among ports
             if(AND == true && n == 0) // checked per qubit, instantly...
@@ -288,26 +297,21 @@ int main()//server
             if(n == 7)
             {
                 string Result = bitset<8>(A).to_string();
-                matrixB =
-                {
-                    Result[0]-48,Result[1]-48,Result[2]-48,Result[3]-48,
-                    Result[4]-48,Result[5]-48,Result[6]-48,Result[7]-48,
-                };
-
+                for(int h = 0; h < data.size(); h++){
+                dataB[h] = Result[h]-48;
+                }
             }
-
-
-            //shift memory into matrix after doing multiple boolean operations
+            //shift memory into data after doing multiple boolean operations
             //if desired logic gate has the boolean value, use within a math problem...
-            //check boolean values to see if program + matrix sucessfully ran.
+            //check boolean values to see if program + data sucessfully ran.
             cout << endl;
             //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
             //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
             //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
         }
-        cout << "Output: math phenomena = " << A << endl << "_________________________________________" << endl;
+        cout << "Stage: " << j << " Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "Output: math phenomena = " << A << endl << "_________________________________________" << endl;
     }
-    //manually code program for linked qubits, process logical matrix according to program(all at once)...
+    //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
     return 0;
 }
