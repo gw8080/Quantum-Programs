@@ -179,7 +179,7 @@ int main()//server
                 int teleportedToAlpha = portB(T,Partition,n,dataB);//physical process
                 int teleportedToBeta = portA(T,Partition,n,data);//physical process
                 //-----------------move to independent port----------------
-                cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed using the same program, instantly
+                cout << "Cycle: " << T << ": " << teleportedToAlpha << " " << teleportedToBeta;
                 if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 0)
                 {
                     cout << " Teleported [off] to port A!" << endl;//done
