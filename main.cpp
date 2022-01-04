@@ -27,14 +27,42 @@ vector<int> data  =
 {
     0,1,1,0,
     1,0,1,1,
-     0,1,1,0,
+    0,1,1,0,
+    1,0,1,1,
+    0,1,1,0,
+    1,0,1,1,
+    0,1,1,0,
+    1,0,1,1,
+    0,1,1,0,
+    1,0,1,1,
+    0,1,1,0,
+    1,0,1,1,
+    0,1,1,0,
+    1,0,1,1,
+    0,1,1,0,
+    1,0,1,1,
+
 
 };//instead place in portA. cycle program, done instantly(qubits/combinations)
 vector<int> dataB =
 {
     1,0,0,1,
     0,1,0,0,
-     1,0,0,1,
+    1,0,0,1,
+    0,1,0,0,
+    1,0,0,1,
+    0,1,0,0,
+    1,0,0,1,
+    0,1,0,0,
+    1,0,0,1,
+    0,1,0,0,
+    1,0,0,1,
+    0,1,0,0,
+    1,0,0,1,
+    0,1,0,0,
+    1,0,0,1,
+    0,1,0,0,
+
 
 };//instead place in portB. cycle data, done instantly(qubits/combinations)
 int portA(int X, int Y, int n,vector<int> data)//Sync X & Y to time
@@ -294,11 +322,12 @@ int main()//server
             {
                 A++;
             }
-            if(n == 7)
+            if(n == data.size())
             {
                 string Result = bitset<8>(A).to_string();
-                for(int h = 0; h < data.size(); h++){
-                dataB[h] = Result[h]-48;
+                for(int h = 0; h < data.size(); h++)
+                {
+                    dataB[h] = Result[h]-48;
                 }
             }
             //shift memory into data after doing multiple boolean operations
