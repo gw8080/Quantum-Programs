@@ -27,43 +27,11 @@ vector<int> data  =
 {
     0,1,1,0,
     1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-    0,1,1,0,
-    1,0,1,1,
-
-
 };//instead place in portA. cycle program, done instantly(qubits/combinations)
 vector<int> dataB =
 {
     1,0,0,1,
     0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-    1,0,0,1,
-    0,1,0,0,
-
-
 };//instead place in portB. cycle data, done instantly(qubits/combinations)
 int portA(int X, int Y, int n,vector<int> data)//Sync X & Y to time
 {
@@ -153,7 +121,6 @@ int portB(int X, int Y,int n,vector<int> data)//Sync X & Y to time
 }
 int main()//server
 {
-
     cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
     vector<int> output;
     vector<string> memory;
@@ -161,27 +128,22 @@ int main()//server
     vector<int> ratios = {1,2};//use float for more precision
     cout << "logical errors should be solved when ports are piecewise rather than using unfitting arrays when simulating..." << endl;
     int A = 0;
-    for(int j = 0; j < stages; j++)
+    for(int j = 1; j < stages+1; j++)
     {
-
         cout << "Input A: ";
         for(int n = 0; n < data.size(); n++)
         {
             cout << data[n];
         }
         cout << endl;
-
         cout << "Input B: ";
         for(int n = 0; n < dataB.size(); n++)
         {
             cout << dataB[n];
         }
         cout << endl;
-
-
         for(int n = 0; n < data.size(); n++)
         {
-
             cout << "New qubit, n = " << n << "(effects are simultaneous on quantum hardware)" << endl;
             bool exit = false;
             for(int Partition = 0; Partition < 2 && exit == false; Partition++)
@@ -228,7 +190,6 @@ int main()//server
                         cout << " Teleported [on] to port B!" << endl;//done
                         memory.push_back("1");
                     }
-
                     //divide teleportation to two ports so computations can be done piecewise.
                     if(teleportedToAlpha == 1 && teleportedToBeta == 2 && Partition == 1)
                     {
