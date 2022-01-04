@@ -250,6 +250,8 @@ int main()//server
         {
 
         }
+
+        //shift memory into data
         //if desired logic gate has the boolean value, use within a math problem...
         //check boolean values to see if program + data sucessfully ran.
         cout << endl;
