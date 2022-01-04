@@ -132,14 +132,19 @@ int main()//server
 {
     cout << "QBOX terminal" << endl;
     vector<int> matrix  =
-                        {1,0,0,0,
-                         0,1,0,0,
-                         0,0,1,0,
-                         0,0,0,1};//instead place in portA. cycle program, done instantly(qubits/combinations)
-    vector<int> matrixB = {1,0,0,0,
-                         0,1,0,0,
-                         0,0,1,0,
-                         0,0,0,1};//instead place in portB. cycle matrix, done instantly(qubits/combinations)
+    {
+        1,0,0,0,
+        0,1,0,0,
+        0,0,1,0,
+        0,0,0,1
+    };//instead place in portA. cycle program, done instantly(qubits/combinations)
+    vector<int> matrixB =
+    {
+        1,0,0,0,
+        0,1,0,0,
+        0,0,1,0,
+        0,0,0,1
+    };//instead place in portB. cycle matrix, done instantly(qubits/combinations)
     vector<int> output;
     vector<string> memory;
     srand (time(NULL));
