@@ -86,35 +86,33 @@ int portA(int T, int Partition, int n,vector<int> data)//Sync X & Y to time
         int Alpha = A;
         int Beta =  A*ratios[T];
 
-        //cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+        cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
         if(Alpha == 0 || Beta == 0)
         {
-            //cout << " In superposition" << endl;
+            cout << " In superposition" << endl;
         }
-        //TODO, calculate logic gates using qubits
-        if(Alpha == 1 && Beta == 2 && Partition == 1)
+        //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+        //n = qubit purpose
+        if(Alpha == 1 && Beta == 2 && Partition == 0)// "1" = portA:0, "2" = portB:0
         {
-            //cout << " Teleported [on] to port A!" << endl;//done
-            memory.push_back("1");
+            cout << " Teleported [off] to port A!" << endl;
+            memory.push_back("0");//truth table
         }
-        if(Alpha == 1 && Beta == 6 && Partition == 1)
+        if(Alpha == 1 && Beta == 6 && Partition == 0)// "1" = portA:0, "6" = portB:1
         {
-            //cout << " Teleported [on] to port A!" << endl;//done
-            memory.push_back("1");
+            cout << " Teleported [on] to port A!" << endl;
+            memory.push_back("1");//truth table
         }
-        if(Alpha == 3 && Beta == 2 && Partition == 1)
+        if(Alpha == 3 && Beta == 2 && Partition == 0)// "3" = portA:1, "2" = portB:0
         {
-            //cout << " Teleported [off] to port A!" << endl;//done
-            memory.push_back("0");
+            cout << " Teleported [off] to port A!" << endl;
+            memory.push_back("0");//truth table
         }
-        if(Alpha == 3 && Beta == 6 && Partition == 1)
+        if(Alpha == 3 && Beta == 6 && Partition == 0)// "1" = portA:1, "6" = portB:1
         {
-            //cout << " Teleported [off] to port A!" << endl;//done
-            memory.push_back("0");
+            cout << " Teleported [on] to port A!" << endl;
+            memory.push_back("1");//truth table
         }
-
-        return (A*ratios[T]);//math simulates quantum entanglement
-        //return state 1 or state 2
     }
     return 0;
 }
@@ -164,69 +162,68 @@ int portB(int T, int Partition,int n,vector<int> data)//Sync X & Y to time
         int Alpha = B/ratios[T];
         int Beta =  B;
 
-        //cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+        cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
         if(Alpha == 0 || Beta == 0)
         {
-            //cout << " In superposition" << endl;
+            cout << " In superposition" << endl;
         }
-        //TODO, calculate logic gates using qubits
-        if(Alpha == 1 && Beta == 2 && Partition == 0)
+        //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+        //n = qubit purpose
+        if(Alpha == 1 && Beta == 2 && Partition == 0)// "1" = portA:1, "2" = portB:1
         {
-            //cout << " Teleported [off] to port B!" << endl;
-            memory.push_back("0");
+            cout << " Teleported [off] to port B!" << endl;
+            memory.push_back("0");//truth table
         }
-        if(Alpha == 1 && Beta == 6 && Partition == 0)
+        if(Alpha == 1 && Beta == 6 && Partition == 0)// "1" = portA:1, "6" = portB:0
         {
-            //cout << " Teleported [on] to port B!" << endl;
-            memory.push_back("1");
+            cout << " Teleported [on] to port B!" << endl;
+            memory.push_back("1");//truth table
         }
-        if(Alpha == 3 && Beta == 2 && Partition == 0)
+        if(Alpha == 3 && Beta == 2 && Partition == 0)// "3" = portA:0, "2" = portB:1
         {
-            //cout << " Teleported [off] to port B!" << endl;
-            memory.push_back("0");
+            cout << " Teleported [off] to port B!" << endl;
+            memory.push_back("0");//truth table
         }
-        if(Alpha == 3 && Beta == 6 && Partition == 0)
+        if(Alpha == 3 && Beta == 6 && Partition == 0)// "1" = portA:0, "6" = portB:0
         {
-            //cout << " Teleported [on] to port B!" << endl;
-            memory.push_back("1");
+            cout << " Teleported [on] to port B!" << endl;
+            memory.push_back("1");//truth table
         }
-        return (B/ratios[T]);//math simulates quantum entanglement
-        //return state 1 or state 2
     }
     return 0;
 }
 int main()//server
 {
-    //cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
+    cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
     vector<int> output;
 
     srand (time(NULL));
     vector<int> ratios = {1,2};//use float for more precision
-    //cout << "logical errors should be solved when ports are piecewise rather than using unfitting arrays when simulating..." << endl;
+    cout << "logical errors should be solved when ports are piecewise rather than using unfitting arrays when simulating..." << endl;
     for(int j = 1; j < stages+1; j++)
     {
-        //cout << "Input A: ";
+        cout << "Input A: ";
         for(int n = 0; n < data.size(); n++)
         {
-            //cout << data[n];
+            cout << data[n];
         }
-        //cout << endl;
-        //cout << "Input B: ";
+        cout << endl;
+        cout << "Input B: ";
         for(int n = 0; n < dataB.size(); n++)
         {
-            //cout << dataB[n];
+            cout << dataB[n];
         }
-        //cout << endl;
+        cout << endl;
         for(int n = 0; n < data.size(); n++)
         {
-            //cout << "New qubit, n = " << n << "(effects are simultaneous on quantum hardware)" << endl;
+            cout << "New qubit, n = " << n << "(effects are simultaneous on quantum hardware)" << endl;
             for(int Partition = 0; Partition < 2; Partition++)
             {
                 for(int T = 0; T < ratios.size(); T++)
                 {
                     stats+=pow (data.size(), data.size())/data.size()/data.size();
                     portA(T,Partition,n,data);//transfer entire function to physical unit with own time evolution, operate in parallel
-                    //cout <<  "_________________________________________" << endl;
+                    cout <<  "_________________________________________" << endl;
                     portB(T,Partition,n,dataB);//transfer entire function to physical unit with own time evolution, operate in parallel
 
                 }
@@ -239,12 +236,12 @@ int main()//server
             //shift memory into data after doing multiple boolean operations
             //if desired logic gate has the boolean value, use within a math problem...
             //check boolean values to see if program + data sucessfully ran.
-            //cout << endl;
+            cout << endl;
             //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
             //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
             //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
         }
-        //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
+        cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     }
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
