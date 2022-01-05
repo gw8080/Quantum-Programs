@@ -28,15 +28,13 @@ int LVB = 0;
 long long int stats = 0; // todo, implement extremely large numbers
 vector<int> data  =
 {
-    0,1,1,0,
-    1,0,1,1,
+    0,0,1,1,
 };//instead place in portA. cycle program, done instantly(qubits/combinations)
 vector<int> dataB =
 {
-    1,0,0,1,
-    0,1,0,0,
+    0,1,0,1,
 };//instead place in portB. cycle data, done instantly(qubits/combinations)
-int portA(int T, int Partition, int n,vector<int> data)//Sync X & Y to time
+vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string binA)//Sync X & Y to time
 {
     vector<string> memory;
     //do calculation
@@ -46,38 +44,38 @@ int portA(int T, int Partition, int n,vector<int> data)//Sync X & Y to time
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int A = 1;
     int C = 3; // result, shared by both ports
-    if(qubit == 0)
+    if(qubit == binA.at(0)-48)
     {
-        if(Partition == 0)
+        if(Partition == binA.at(1)-48)
         {
 
             A = 1;
             C = 3;
-            LVA = 1;//light valve activate according to data
+            LVA = binA.at(2)-48;//light valve activate according to data
         }
-        if(Partition == 1)
+        if(Partition == binA.at(3)-48)
         {
 
             A = 3;
             C = 9;
-            LVA = 0;//light valve deactivate according to data
+            LVA = binA.at(4)-48;//light valve deactivate according to data
         }
     }
-    if(qubit == 1)
+    if(qubit == binA.at(5)-48)
     {
-        if(Partition == 1)
+        if(Partition == binA.at(6)-48)
         {
 
             A = 1;
             C = 3;
-            LVA = 1;//light valve activate according to data
+            LVA = binA.at(7)-48;//light valve activate according to data
         }
-        if(Partition == 0)
+        if(Partition == binA.at(8)-48)
         {
 
             A = 3;
             C = 9;
-            LVA = 0;//light valve deactivate according to data
+            LVA = binA.at(9)-48;//light valve deactivate according to data
         }
     }
     if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
@@ -93,30 +91,36 @@ int portA(int T, int Partition, int n,vector<int> data)//Sync X & Y to time
         }
         //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
         //n = qubit purpose
-        if(Alpha == 1 && Beta == 2 && Partition == 0)// "1" = portA:0, "2" = portB:0
+
+        //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+        //A = 0011 0100 1111 1000
+        //B = 0000 0111 1100 1011
+        //AND gate
+        //qubit + partition = alpha & beta
+        if(Alpha == 1 && Beta == 2)//do not change unless absolutely necessary
         {
-            cout << " Teleported [off] to port A!" << endl;
-            memory.push_back("0");//truth table
+            cout << "Teleported [off/on] to port A!" << endl;
+            memory.push_back(to_string(binA.at(10)-48));//truth table
         }
-        if(Alpha == 1 && Beta == 6 && Partition == 0)// "1" = portA:0, "6" = portB:1
+        if(Alpha == 1 && Beta == 6)//do not change unless absolutely necessary
         {
-            cout << " Teleported [on] to port A!" << endl;
-            memory.push_back("1");//truth table
+            cout << "Teleported [off/on] to port A!" << endl;
+            memory.push_back(to_string(binA.at(11)-48));//truth table
         }
-        if(Alpha == 3 && Beta == 2 && Partition == 0)// "3" = portA:1, "2" = portB:0
+        if(Alpha == 3 && Beta == 2)//do not change unless absolutely necessary
         {
-            cout << " Teleported [off] to port A!" << endl;
-            memory.push_back("0");//truth table
+            cout << "Teleported [off/on] to port A!" << endl;
+            memory.push_back(to_string(binA.at(12)-48));//truth table
         }
-        if(Alpha == 3 && Beta == 6 && Partition == 0)// "1" = portA:1, "6" = portB:1
+        if(Alpha == 3 && Beta == 6)//do not change unless absolutely necessary
         {
-            cout << " Teleported [on] to port A!" << endl;
-            memory.push_back("1");//truth table
+            cout << "Teleported [off/on] to port A!" << endl;
+            memory.push_back(to_string(binA.at(13)-48));//truth table
         }
     }
-    return 0;
+    return memory;
 }
-int portB(int T, int Partition,int n,vector<int> data)//Sync X & Y to time
+vector<string> portB(int T, int Partition,int n,vector<int> data, int W,string binB)//Sync X & Y to time
 {
     vector<string> memory;
     //do calculation
@@ -126,34 +130,34 @@ int portB(int T, int Partition,int n,vector<int> data)//Sync X & Y to time
     //state 1 = 1,2,3 & state 2 = 3,6,9 works //iterate this
     int B = 2;
     int C = 3; // result, shared by both ports
-    if(qubit == 0)
+    if(qubit == binB.at(0)-48)
     {
-        if(Partition == 0)
+        if(Partition == binB.at(1)-48)
         {
             B = 2;
             C = 3; // result, shared by both ports
-            LVB = 0;//light valve deactivate according to data
+            LVB = binB.at(2)-48;//light valve deactivate according to data
         }
-        if(Partition == 1)
+        if(Partition == binB.at(3)-48)
         {
             B = 6;
             C = 9; // result, shared by both ports
-            LVB = 1;//light valve activate according to data
+            LVB = binB.at(4)-48;//light valve activate according to data
         }
     }
-    if(qubit == 1)
+    if(qubit == binB.at(5)-48)
     {
-        if(Partition == 1)
+        if(Partition == binB.at(6)-48)
         {
             B = 2;
             C = 3; // result, shared by both ports
-            LVB = 0;//light valve deactivate according to data
+            LVB = binB.at(7)-48;//light valve deactivate according to data
         }
-        if(Partition == 0)
+        if(Partition == binB.at(8)-48)
         {
             B = 6;
             C = 9; // result, shared by both ports
-            LVB = 1;//light valve activate according to data
+            LVB = binB.at(9)-48;//light valve activate according to data
         }
     }
     if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
@@ -165,41 +169,47 @@ int portB(int T, int Partition,int n,vector<int> data)//Sync X & Y to time
         cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
         if(Alpha == 0 || Beta == 0)
         {
-            cout << " In superposition" << endl;
+            cout << "In superposition" << endl;
         }
         //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
         //n = qubit purpose
-        if(Alpha == 1 && Beta == 2 && Partition == 0)// "1" = portA:1, "2" = portB:1
+
+        //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+        //A = 0011 0100 1111 1000
+        //B = 0000 0111 1100 1011
+        //AND gate
+        //qubit + partition = alpha & beta
+        if(Alpha == 1 && Beta == 2)//do not change unless absolutely necessary
         {
-            cout << " Teleported [off] to port B!" << endl;
-            memory.push_back("0");//truth table
+            cout << "Teleported [off/on] to port B!" << endl;
+            memory.push_back(to_string(binB.at(10)-48));//truth table
         }
-        if(Alpha == 1 && Beta == 6 && Partition == 0)// "1" = portA:1, "6" = portB:0
+        if(Alpha == 1 && Beta == 6)//do not change unless absolutely necessary
         {
-            cout << " Teleported [on] to port B!" << endl;
-            memory.push_back("1");//truth table
+            cout << "Teleported [off/on] to port B!" << endl;
+            memory.push_back(to_string(binB.at(11)-48));//truth table
         }
-        if(Alpha == 3 && Beta == 2 && Partition == 0)// "3" = portA:0, "2" = portB:1
+        if(Alpha == 3 && Beta == 2)//do not change unless absolutely necessary
         {
-            cout << " Teleported [off] to port B!" << endl;
-            memory.push_back("0");//truth table
+            cout << "Teleported [off/on] to port B!" << endl;
+            memory.push_back(to_string(binB.at(12)-48));//truth table
         }
-        if(Alpha == 3 && Beta == 6 && Partition == 0)// "1" = portA:0, "6" = portB:0
+        if(Alpha == 3 && Beta == 6)//do not change unless absolutely necessary
         {
-            cout << " Teleported [on] to port B!" << endl;
-            memory.push_back("1");//truth table
+            cout << "Teleported [off/on] to port B!" << endl;
+            memory.push_back(to_string(binB.at(13)-48));//truth table
         }
     }
-    return 0;
+    return memory;
 }
 int main()//server
 {
+    int W = 0;
     cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
     vector<int> output;
 
     srand (time(NULL));
     vector<int> ratios = {1,2};//use float for more precision
-    cout << "logical errors should be solved when ports are piecewise rather than using unfitting arrays when simulating..." << endl;
     for(int j = 1; j < stages+1; j++)
     {
         cout << "Input A: ";
@@ -214,18 +224,41 @@ int main()//server
             cout << dataB[n];
         }
         cout << endl;
+        string binA = bitset<14>(W).to_string();
+        string binB = bitset<14>(W).to_string();
+        //binA = 00000000000000 // calibration code
+        //binB = 00000000000000 // calibration code
+        W++;
+
+        vector<string> outputA;
+        vector<string> outputB;
         for(int n = 0; n < data.size(); n++)
         {
-            cout << "New qubit, n = " << n << "(effects are simultaneous on quantum hardware)" << endl;
-            for(int Partition = 0; Partition < 2; Partition++)
+            cout << endl << "New qubit, n = " << n << "(effects are simultaneous on quantum hardware)" << endl;
+            for(int Partition = 0; Partition < 2; Partition++)// use timing in port instead
             {
-                for(int T = 0; T < ratios.size(); T++)
+                for(int T = 0; T < ratios.size(); T++)//use timing in port instead
                 {
                     stats+=pow (data.size(), data.size())/data.size()/data.size();
-                    portA(T,Partition,n,data);//transfer entire function to physical unit with own time evolution, operate in parallel
-                    cout <<  "_________________________________________" << endl;
-                    portB(T,Partition,n,dataB);//transfer entire function to physical unit with own time evolution, operate in parallel
-
+                    vector<string> proc = portA(T,Partition,n,data,W,binA);
+                    outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
+                    proc = portB(T,Partition,n,data,W,binB);
+                    outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
+                    cout << "data: ";
+                    for(int f = 0; f < data.size(); f++)
+                    {
+                        cout << data[f];
+                    }
+                    cout << " dataB: ";
+                    for(int f = 0; f < dataB.size(); f++)
+                    {
+                        cout << dataB[f];
+                    }
+                    cout << endl;
+                    if(outputA.size() > 0 && outputB.size() > 0)
+                    {
+                        cout << endl << "portA: " << outputA[0] << " portB: " << outputB[0] << endl; // check configuration
+                    }
                 }
             }
             //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
@@ -236,11 +269,11 @@ int main()//server
             //shift memory into data after doing multiple boolean operations
             //if desired logic gate has the boolean value, use within a math problem...
             //check boolean values to see if program + data sucessfully ran.
-            cout << endl;
             //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
             //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
             //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
         }
+
         cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     }
     //manually code program for linked qubits, process logical data according to program(all at once)...
