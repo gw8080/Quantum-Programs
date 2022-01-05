@@ -9,8 +9,8 @@ int main()
     srand (time(NULL));
     //qubit-partition-LV--truth table configuration // qubits require to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
     //example
-    //A = 001 010 111 100 012 345 678 91011
-    //B = 000 011 110 101
+    //A = 0011 0100 1111 1001
+    //B = 0001 0110 1100 1011
     long long int combinations = 0;
     string data = "";
     long long int n = 1048576;
