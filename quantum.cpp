@@ -177,8 +177,11 @@ vector<string> portB(int T, int Partition,int n,vector<int> data, int W,string b
         //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
         //A = 0011 0100 1111 1000
         //B = 0000 0111 1100 1011
-        //AND gate
-        //TODO, add quantum memory copy...
+        //TODO, AND gate
+        //TODO, OR gate
+        //TODO, XOR gate
+        //TODO, NOT gate
+        //TODO, add entanglement based memory copy...
         //qubit + partition = alpha & beta
         if(Alpha == 1 && Beta == 2)//do not change unless absolutely necessary
         {
