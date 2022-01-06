@@ -12,7 +12,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
     */
 //separate port A and port B, include server at each end
-//to access the full potential of multiple qubits, true instantaneous function rather than sequential instantaneous function across all qubits, requires implementation parametric down conversion.
 #include <iostream>
 #include <string>
 #include <vector>
