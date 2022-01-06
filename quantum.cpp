@@ -11,7 +11,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
     */
-//seperate port A and port B, include server at each end
+//separate port A and port B, include server at each end
 #include <iostream>
 #include <string>
 #include <vector>
@@ -229,6 +229,7 @@ int main()//server
         //binA = 00000000000000 // calibration code
         //binB = 00000000000000 // calibration code
         W++;
+        cout << "port A configuration: " << binA;
 
         vector<string> outputA;
         vector<string> outputB;
