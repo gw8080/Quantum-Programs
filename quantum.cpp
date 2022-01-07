@@ -182,6 +182,7 @@ vector<string> portB(int T, int Partition,int n,vector<int> data, int W,string b
         //TODO, XOR gate
         //TODO, NOT gate
         //TODO, add entanglement based memory copy...
+        //TODO, add maths functions such as square root, geometric calculations(find volume of a cube), etc...
         //qubit + partition = alpha & beta
         if(Alpha == 1 && Beta == 2)//do not change unless absolutely necessary
         {
