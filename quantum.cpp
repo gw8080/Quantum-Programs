@@ -117,6 +117,7 @@ vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string 
             cout << "Teleported [off/on] to port A!" << endl;
             memory.push_back(to_string(binA.at(13)-48));//truth table
         }
+        //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
     }
     return memory;
 }
@@ -204,6 +205,7 @@ vector<string> portB(int T, int Partition,int n,vector<int> data, int W,string b
             cout << "Teleported [off/on] to port B!" << endl;
             memory.push_back(to_string(binB.at(13)-48));//truth table
         }
+        //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
     }
     return memory;
 }
