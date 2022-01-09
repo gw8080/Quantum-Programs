@@ -278,8 +278,8 @@ int main()//server
         //cout << endl;
         string binA = bitset<15>(W).to_string();
         string binB = bitset<15>(W).to_string();
-        //binA = 00000000000000 // calibration code
-        //binB = 00000000000000 // calibration code
+        //binA = 00000000000000 // configuration code
+        //binB = 00000000000000 // configuration code
         W++;
         //cout << "port A configuration: " << binA;
         vector<string> outputA;
