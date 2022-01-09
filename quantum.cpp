@@ -20,12 +20,13 @@
 #include <time.h>
 #include <sstream>
 #include <bits/stdc++.h>
-int stages = 1000;
+int stages = 10000;
 using namespace std;
 int LVA = 0;
 int LVB = 0;
 long long int telestats = 0;
 //using logic gate instructions distributed throughout qubits to process information within other qubits
+// the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly calibrated hardware
 long long int stats = 0; // todo, implement extremely large numbers
 vector<int> data  =
 {
