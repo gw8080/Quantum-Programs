@@ -20,10 +20,12 @@
 #include <time.h>
 #include <sstream>
 #include <bits/stdc++.h>
+#include <unistd.h>
 int stages = 10000;
 using namespace std;
 int LVA = 0;
 int LVB = 0;
+int delay = 40;//simulate bottleneck
 long long int telestats = 0;
 //using logic gate instructions distributed throughout qubits to process information within other qubits
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
@@ -60,6 +62,7 @@ vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string 
         if(Partition == binA.at(1)-48)
         {
             LVA = binA.at(2)-48;//light valve activate according to data
+            usleep(delay);
             if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
             {
                 //check entanglement property and check time & partition information of the entanglement event instead
@@ -84,6 +87,7 @@ vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string 
             if(Partition == binA.at(5)-48)
             {
                 LVA = binA.at(6)-48;//light valve activate according to data
+                usleep(delay);
                 if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead
@@ -109,6 +113,7 @@ vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string 
         if(Partition == binA.at(9)-48)
         {
             LVA = binA.at(10)-48;//light valve activate according to data
+            usleep(delay);
             if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
             {
                 //check entanglement property and check time & partition information of the entanglement event instead
@@ -131,6 +136,7 @@ vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string 
         if(Partition == binA.at(12)-48)
         {
             LVA = binA.at(13)-48;//light valve activate according to data
+            usleep(delay);
             if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
             {
                 //check entanglement property and check time & partition information of the entanglement event instead
@@ -162,6 +168,7 @@ vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string 
         if(Partition == binB.at(1)-48)
         {
             LVB = binB.at(2)-48;//light valve activate according to data
+            usleep(delay);
             if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
             {
                 //check entanglement property and check time & partition information of the entanglement event instead
@@ -186,6 +193,7 @@ vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string 
             if(Partition == binB.at(5)-48)
             {
                 LVB = binB.at(6)-48;//light valve activate according to data
+                usleep(delay);
                 if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead
@@ -211,6 +219,7 @@ vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string 
         if(Partition == binB.at(9)-48)
         {
             LVB = binB.at(10)-48;//light valve activate according to data
+            usleep(delay);
             if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
             {
                 //check entanglement property and check time & partition information of the entanglement event instead
@@ -233,6 +242,7 @@ vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string 
         if(Partition == binB.at(12)-48)
         {
             LVB = binB.at(13)-48;//light valve activate according to data
+            usleep(delay);
             if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
             {
                 //check entanglement property and check time & partition information of the entanglement event instead
