@@ -21,7 +21,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <unistd.h>
-int stages = 10;
+int stages = 1;
 using namespace std;
 int LVA = 0;
 int LVB = 0;
@@ -297,30 +297,36 @@ int main()//server
             outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
             proc = portB(n,dataB,W,binB);
             outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-            cout << endl << "dataA: ";
+            cout << endl << "Qubit: " << n << endl;
+            cout << "Configuration A: " << binA << endl;
+            cout << "Configuration B: " << binB << endl;
+
+            cout << "dataA: ";
             for(int f = 0; f < dataA.size(); f++)
             {
                 cout << dataA[f];
             }
             cout << endl;
-            cout << "Configuration A: " << binA << endl;
+
             cout << "dataB: ";
             for(int f = 0; f < dataB.size(); f++)
             {
                 cout << dataB[f];
             }
             cout << endl;
-            cout << "Configuration B: " << binB << endl;
-            cout << "PortA: ";
+
+
+
+            cout << "MemoryA: ";
             for(int f = 0; f < outputA.size(); f++)
             {
                 cout << outputA[f];
             }
             cout << endl;
-            cout << "PortB: ";
-            for(int f = 0; f < outputA.size(); f++)
+            cout << "MemoryB: ";
+            for(int f = 0; f < outputB.size(); f++)
             {
-                cout << outputA[f];
+                cout << outputB[f];
             }
             cout << endl;
             //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
