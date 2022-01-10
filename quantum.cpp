@@ -21,7 +21,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <unistd.h>
-int stages = 10000;
+int stages = 10;
 using namespace std;
 int LVA = 0;
 int LVB = 0;
@@ -30,65 +30,28 @@ long long int telestats = 0;
 //using logic gate instructions distributed throughout qubits to process information within other qubits
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
 long long int stats = 0; // todo, implement extremely large numbers
-vector<int> data  =
+vector<int> dataA  =
 {
-    0,0,1,1,
-    0,0,1,1,
-    0,0,1,1,
-    0,0,1,1,
-    0,0,1,1,
-    0,0,1,1,
-    0,0,1,1,
-    0,0,1,1,
+    1,0,1,1,
 };//instead place in portA. cycle program, done instantly(qubits/combinations)
 vector<int> dataB =
 {
-    0,1,0,1,
-    0,1,0,1,
-    0,1,0,1,
-    0,1,0,1,
-    0,1,0,1,
-    0,1,0,1,
-    0,1,0,1,
-    0,1,0,1,
+    1,1,0,1,
 };//instead place in portB. cycle data, done instantly(qubits/combinations)
-vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string binA)//Sync T & Partition to time
+vector<string> portA(int n,vector<int> data, int W,string binA)//Sync n & Partition to time
 {
     vector<string> memory;
     //do calculation
-    data[n];//entangled bit/Turing strip
-    if(data[n] == binA.at(0)-48)
+    dataA[n];//entangled bit/Turing strip
+    for(int Partition = 0; Partition < 2; Partition++)
     {
-        if(Partition == binA.at(1)-48)
+        if(dataA[n] == binA.at(0)-48)
         {
-            LVA = binA.at(2)-48;//light valve activate according to data
-            usleep(delay);
-            if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+            if(Partition == binA.at(1)-48)
             {
-                //check entanglement property and check time & partition information of the entanglement event instead
-                ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                //n = qubit purpose
-
-                //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                //A = 0011 0100 1111 1000
-                //B = 0000 0111 1100 1011
-                //AND gate
-                //qubit + partition = alpha & beta
-                //cout << "Teleported [off/on] to port A!" << endl;
-                memory.push_back(to_string(binA.at(3)-48));//truth table
-                telestats++;
-                //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
-            }
-        }
-        if(Partition == binA.at(4)-48)
-        {
-
-            if(Partition == binA.at(5)-48)
-            {
-                LVA = binA.at(6)-48;//light valve activate according to data
+                LVA = binA.at(2)-48;//light valve activate according to data
                 usleep(delay);
-                if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead
                     ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
@@ -101,100 +64,99 @@ vector<string> portA(int T, int Partition, int n,vector<int> data, int W,string 
                     //AND gate
                     //qubit + partition = alpha & beta
                     //cout << "Teleported [off/on] to port A!" << endl;
-                    memory.push_back(to_string(binA.at(7)-48));//truth table
+                    memory.push_back("@"+to_string(n)+":"+to_string(binA.at(3)-48));//truth table
+                    telestats++;
+                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                }
+            }
+            if(Partition == binA.at(4)-48)
+            {
+                LVA = binA.at(5)-48;//light valve activate according to data
+                usleep(delay);
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                {
+                    //check entanglement property and check time & partition information of the entanglement event instead
+                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+                    //n = qubit purpose
+
+                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+                    //A = 0011 0100 1111 1000
+                    //B = 0000 0111 1100 1011
+                    //AND gate
+                    //qubit + partition = alpha & beta
+                    //cout << "Teleported [off/on] to port A!" << endl;
+                    memory.push_back("@"+to_string(n)+":"+to_string(binA.at(6)-48));//truth table
+                    telestats++;
+                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                }
+            }
+        }
+        if(dataA[n] == binA.at(7)-48)
+        {
+            if(Partition == binA.at(8)-48)
+            {
+                LVA = binA.at(9)-48;//light valve activate according to data
+                usleep(delay);
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                {
+                    //check entanglement property and check time & partition information of the entanglement event instead
+                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+                    //n = qubit purpose
+
+                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+                    //A = 0011 0100 1111 1000
+                    //B = 0000 0111 1100 1011
+                    //AND gate
+                    //qubit + partition = alpha & beta
+
+                    //cout << "Teleported [off/on] to port A!" << endl;
+                    memory.push_back("@"+to_string(n)+":"+to_string(binA.at(10)-48));//truth table
+                    telestats++;
+                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                }
+            }
+            if(Partition == binA.at(11)-48)
+            {
+                LVA = binA.at(12)-48;//light valve activate according to data
+                usleep(delay);
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                {
+                    //check entanglement property and check time & partition information of the entanglement event instead
+                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+                    //n = qubit purpose
+
+                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+                    //A = 0011 0100 1111 1000
+                    //B = 0000 0111 1100 1011
+                    //AND gate
+                    //qubit + partition = alpha & beta
+                    //cout << "Teleported [off/on] to port A!" << endl;
+                    memory.push_back("@"+to_string(n)+":"+to_string(binA.at(13)-48));//truth table
                     telestats++;
                     //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
                 }
             }
         }
     }
-    if(data[n] == binA.at(8)-48)
-    {
-        if(Partition == binA.at(9)-48)
-        {
-            LVA = binA.at(10)-48;//light valve activate according to data
-            usleep(delay);
-            if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
-            {
-                //check entanglement property and check time & partition information of the entanglement event instead
-                ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                //n = qubit purpose
-
-                //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                //A = 0011 0100 1111 1000
-                //B = 0000 0111 1100 1011
-                //AND gate
-                //qubit + partition = alpha & beta
-
-                //cout << "Teleported [off/on] to port A!" << endl;
-                memory.push_back(to_string(binA.at(11)-48));//truth table
-                telestats++;
-                //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
-            }
-        }
-        if(Partition == binA.at(12)-48)
-        {
-            LVA = binA.at(13)-48;//light valve activate according to data
-            usleep(delay);
-            if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
-            {
-                //check entanglement property and check time & partition information of the entanglement event instead
-                ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                //n = qubit purpose
-
-                //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                //A = 0011 0100 1111 1000
-                //B = 0000 0111 1100 1011
-                //AND gate
-                //qubit + partition = alpha & beta
-                //cout << "Teleported [off/on] to port A!" << endl;
-                memory.push_back(to_string(binA.at(14)-48));//truth table
-                telestats++;
-                //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
-            }
-        }
-    }
     return memory;
 }
-vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string binB)//Sync T & Partition to time
+vector<string> portB( int n,vector<int> dataB, int W,string binB)//Sync n & Partition to time
 {
     vector<string> memory;
     //do calculation
-    data[n];//entangled bit/Turing strip
-    if(data[n] == binB.at(0)-48)
+    dataB[n];//entangled bit/Turing strip
+    for(int Partition = 0; Partition < 2; Partition++)
     {
-        if(Partition == binB.at(1)-48)
+        if(dataB[n] == binB.at(0)-48)
         {
-            LVB = binB.at(2)-48;//light valve activate according to data
-            usleep(delay);
-            if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+            if(Partition == binB.at(1)-48)
             {
-                //check entanglement property and check time & partition information of the entanglement event instead
-                ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                //n = qubit purpose
-
-                //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                //A = 0011 0100 1111 1000
-                //B = 0000 0111 1100 1011
-                //AND gate
-                //qubit + partition = alpha & beta
-                //cout << "Teleported [off/on] to port B!" << endl;
-                memory.push_back(to_string(binB.at(3)-48));//truth table
-                telestats++;
-                //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
-            }
-        }
-        if(Partition == binB.at(4)-48)
-        {
-
-            if(Partition == binB.at(5)-48)
-            {
-                LVB = binB.at(6)-48;//light valve activate according to data
+                LVB = binB.at(2)-48;//light valve activate according to data
                 usleep(delay);
-                if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead
                     ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
@@ -207,58 +169,80 @@ vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string 
                     //AND gate
                     //qubit + partition = alpha & beta
                     //cout << "Teleported [off/on] to port B!" << endl;
-                    memory.push_back(to_string(binB.at(7)-48));//truth table
+                    memory.push_back("@"+to_string(n)+":"+to_string(binB.at(3)-48));//truth table
+                    telestats++;
+                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                }
+            }
+            if(Partition == binB.at(4)-48)
+            {
+                LVB = binB.at(5)-48;//light valve activate according to data
+                usleep(delay);
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                {
+                    //check entanglement property and check time & partition information of the entanglement event instead
+                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+                    //n = qubit purpose
+
+                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+                    //A = 0011 0100 1111 1000
+                    //B = 0000 0111 1100 1011
+                    //AND gate
+                    //qubit + partition = alpha & beta
+                    //cout << "Teleported [off/on] to port B!" << endl;
+                    memory.push_back("@"+to_string(n)+":"+to_string(binB.at(6)-48));//truth table
                     telestats++;
                     //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
                 }
             }
         }
-    }
-    if(data[n] == binB.at(8)-48)
-    {
-        if(Partition == binB.at(9)-48)
+        if(dataB[n] == binB.at(7)-48)
         {
-            LVB = binB.at(10)-48;//light valve activate according to data
-            usleep(delay);
-            if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+            if(Partition == binB.at(8)-48)
             {
-                //check entanglement property and check time & partition information of the entanglement event instead
-                ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                //n = qubit purpose
+                LVB = binB.at(9)-48;//light valve activate according to data
+                usleep(delay);
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                {
+                    //check entanglement property and check time & partition information of the entanglement event instead
+                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+                    //n = qubit purpose
 
-                //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                //A = 0011 0100 1111 1000
-                //B = 0000 0111 1100 1011
-                //AND gate
-                //qubit + partition = alpha & beta
+                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+                    //A = 0011 0100 1111 1000
+                    //B = 0000 0111 1100 1011
+                    //AND gate
+                    //qubit + partition = alpha & beta
 
-                //cout << "Teleported [off/on] to port B!" << endl;
-                memory.push_back(to_string(binB.at(11)-48));//truth table
-                telestats++;
-                //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                    //cout << "Teleported [off/on] to port B!" << endl;
+                    memory.push_back("@"+to_string(n)+":"+to_string(binB.at(10)-48));//truth table
+                    telestats++;
+                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                }
             }
-        }
-        if(Partition == binB.at(12)-48)
-        {
-            LVB = binB.at(13)-48;//light valve activate according to data
-            usleep(delay);
-            if(rand() % 2 == Partition)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+            if(Partition == binB.at(11)-48)
             {
-                //check entanglement property and check time & partition information of the entanglement event instead
-                ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                //n = qubit purpose
+                LVB = binB.at(12)-48;//light valve activate according to data
+                usleep(delay);
+                if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
+                {
+                    //check entanglement property and check time & partition information of the entanglement event instead
+                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
+                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
+                    //n = qubit purpose
 
-                //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                //A = 0011 0100 1111 1000
-                //B = 0000 0111 1100 1011
-                //AND gate
-                //qubit + partition = alpha & beta
-                //cout << "Teleported [off/on] to port B!" << endl;
-                memory.push_back(to_string(binB.at(14)-48));//truth table
-                telestats++;
-                //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
+                    //A = 0011 0100 1111 1000
+                    //B = 0000 0111 1100 1011
+                    //AND gate
+                    //qubit + partition = alpha & beta
+                    //cout << "Teleported [off/on] to port B!" << endl;
+                    memory.push_back("@"+to_string(n)+":"+to_string(binB.at(13)-48));//truth table
+                    telestats++;
+                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
+                }
             }
         }
     }
@@ -266,63 +250,79 @@ vector<string> portB(int T, int Partition, int n,vector<int> data, int W,string 
 }
 int main()//server
 {
-    int W = 0;
+    int W = 4095;
     //cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
-    vector<int> output;
+
 
     srand (time(NULL));
     vector<int> ratios = {1,2};//use float for more precision
     for(int j = 1; j < stages+1; j++)
     {
-        //cout << "Input A: ";
-        for(int n = 0; n < data.size(); n++)
-        {
-            //cout << data[n];
-        }
-        //cout << endl;
-        //cout << "Input B: ";
-        for(int n = 0; n < dataB.size(); n++)
-        {
-            //cout << dataB[n];
-        }
-        //cout << endl;
-        string binA = bitset<15>(W).to_string();
-        string binB = bitset<15>(W).to_string();
-        //binA = 00000000000000 // configuration code
-        //binB = 00000000000000 // configuration code
-        W++;
+
+        //------------------Experimental AND gate ------------------
+        string binA = "0100001010101101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [data] and [logic gate output] locations, which are distributed to each port
+        //48 is ascii for 0, 49 is 1
+        string binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [data] and [logic gate output] locations, which are distributed to each port
+        binB += "0";//data
+        (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
+        (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
+        binB += "0";//truth table
+
+        binB += "1";//data
+        (binA.at(5) == 48) ? binB += "1" : binB += "0";
+        (binA.at(6) == 48) ? binB += "1" : binB += "0";
+        binB += "0";//truth table
+
+        binB += "0";//data
+        (binA.at(9) == 48) ? binB += "1" : binB += "0";
+        (binA.at(10) == 48) ? binB += "1" : binB += "0";
+        binB += "0";//truth table
+
+        binB += "1";//data
+        (binA.at(13) == 48) ? binB += "1" : binB += "0";
+        (binA.at(14) == 48) ? binB += "1" : binB += "0";
+        binB += "1";//truth table
+//------------------Experimental AND gate ------------------
+
         //cout << "port A configuration: " << binA;
         vector<string> outputA;
         vector<string> outputB;
-        for(int n = 0; n < data.size(); n++)
+        for(int n = 0; n < dataA.size(); n++)
         {
             //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
-            for(int Partition = 0; Partition < 2; Partition++)// use timing in port instead
+
+            vector<int> output;
+            stats+=pow (dataA.size(), dataA.size())/dataA.size()/dataA.size();
+            vector<string> proc = portA(n,dataA,W,binA);
+            outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
+            proc = portB(n,dataB,W,binB);
+            outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
+            cout << endl << "dataA: ";
+            for(int f = 0; f < dataA.size(); f++)
             {
-                for(int T = 0; T < ratios.size(); T++)//use timing in port instead
-                {
-                    stats+=pow (data.size(), data.size())/data.size()/data.size();
-                    vector<string> proc = portA(T,Partition,n,data,W,binA);
-                    outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-                    proc = portB(T,Partition,n,data,W,binB);
-                    outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-                    //cout << "data: ";
-                    for(int f = 0; f < data.size(); f++)
-                    {
-                        //cout << data[f];
-                    }
-                    //cout << " dataB: ";
-                    for(int f = 0; f < dataB.size(); f++)
-                    {
-                        //cout << dataB[f];
-                    }
-                    //cout << endl;
-                    if(outputA.size() > 0 && outputB.size() > 0)
-                    {
-                        //cout << endl << "portA: " << outputA[0] << " portB: " << outputB[0] << endl; // check configuration
-                    }
-                }
+                cout << dataA[f];
             }
+            cout << endl;
+            cout << "Configuration A: " << binA << endl;
+            cout << "dataB: ";
+            for(int f = 0; f < dataB.size(); f++)
+            {
+                cout << dataB[f];
+            }
+            cout << endl;
+            cout << "Configuration B: " << binB << endl;
+            cout << "PortA: ";
+            for(int f = 0; f < outputA.size(); f++)
+            {
+                cout << outputA[f];
+            }
+            cout << endl;
+            cout << "PortB: ";
+            for(int f = 0; f < outputA.size(); f++)
+            {
+                cout << outputA[f];
+            }
+            cout << endl;
             //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
             //done straight after teleportation
 
@@ -340,6 +340,6 @@ int main()//server
     }
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
-    cout << "total qubit activations: " << data.size()*stages << " in " << stages << " stages, " << " Total teleportations/Logic gate activations " << telestats << endl;
+    cout << "total qubit activations: " << dataA.size()*stages << " in " << stages << " stages, " << " Total teleportations/Logic gate activations " << telestats << endl;
     return 0;
 }
