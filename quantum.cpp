@@ -43,7 +43,7 @@ vector<string> portA(int n,vector<int> data, int W,string binA)//Sync n & Partit
     vector<string> memory;
     //do calculation
     dataA[n];//entangled bit/Turing strip
-    for(int Partition = 0; Partition < 2; Partition++)
+    for(int Partition = 0; Partition != 2; Partition++)
     {
         if(dataA[n] == binA.at(0)-48)
         {
@@ -148,7 +148,7 @@ vector<string> portB( int n,vector<int> dataB, int W,string binB)//Sync n & Part
     vector<string> memory;
     //do calculation
     dataB[n];//entangled bit/Turing strip
-    for(int Partition = 0; Partition < 2; Partition++)
+    for(int Partition = 0; Partition != 2; Partition++)
     {
         if(dataB[n] == binB.at(0)-48)
         {
@@ -260,9 +260,9 @@ int main()//server
     {
 
         //------------------Experimental AND gate ------------------
-        string binA = "0100001010101101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [data] and [logic gate output] locations, which are distributed to each port
+        string binA = "0100 0010 1010 1101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
         //48 is ascii for 0, 49 is 1
-        string binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [data] and [logic gate output] locations, which are distributed to each port
+        string binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
         binB += "0";//data
         (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
         (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
@@ -301,7 +301,7 @@ int main()//server
             cout << "Configuration A: " << binA << endl;
             cout << "Configuration B: " << binB << endl;
 
-            cout << "dataA: ";
+            cout <<  "dataA: ";
             for(int f = 0; f < dataA.size(); f++)
             {
                 cout << dataA[f];
@@ -317,18 +317,6 @@ int main()//server
 
 
 
-            cout << "MemoryA: ";
-            for(int f = 0; f < outputA.size(); f++)
-            {
-                cout << outputA[f];
-            }
-            cout << endl;
-            cout << "MemoryB: ";
-            for(int f = 0; f < outputB.size(); f++)
-            {
-                cout << outputB[f];
-            }
-            cout << endl;
             //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
             //done straight after teleportation
 
@@ -342,6 +330,18 @@ int main()//server
             //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
         }
 
+            cout << "MemoryA: ";
+            for(int f = 0; f != outputA.size(); f++)
+            {
+                cout << outputA[f];
+            }
+            cout << endl;
+            cout << "MemoryB: ";
+            for(int f = 0; f != outputB.size(); f++)
+            {
+                cout << outputB[f];
+            }
+            cout << endl;
         //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     }
     //manually code program for linked qubits, process logical data according to program(all at once)...
