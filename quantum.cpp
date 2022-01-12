@@ -24,7 +24,7 @@
 using namespace std;
 int LVA = 0;
 int LVB = 0;
-int delay = 40;//simulate bottleneck
+int delay = 9000;//simulate bottleneck
 long long int telestats = 0;
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
@@ -269,7 +269,7 @@ int main()//server
 //------------------Experimental memory transfer gate ------------------
 
 //set program
-//1 = AND, 2 = CNOT, 3 =  transfer output to data , 4 = iterate whole program once, 5 = if statement using next instruction if true
+//1 = AND, 2 = CNOT, 3 =  transfer output to data , 4 = iterate whole program once, 5 = if statement using next instruction if true, 6 = else if statement, 7 = end if statement, 8 = perform half/full adder on next 8 bits of data
     vector<int> program = {1,2,1,2,3,2,1,1,2,3,4};//example program refers to each instruction performed on data linearly according to configuration
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
