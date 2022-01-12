@@ -250,40 +250,72 @@ vector<string> portB( int n,vector<int> dataB, int W,string binB)//Sync n & Part
 }
 int main()//server
 {
+    string binA,binB;
     int W = 4095;
     //cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
-
+    vector<string> Register = {"00","01"};
 
     srand (time(NULL));
     vector<int> ratios = {1,2};//use float for more precision
     for(int j = 1; j < stages+1; j++)
     {
+        int instruction = rand() % 2;
+        if(Register[instruction] == "00")
+        {
+            //------------------Experimental AND gate ------------------
+             binA = "0100001010101101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+            //48 is ascii for 0, 49 is 1
+             binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
-        //------------------Experimental AND gate ------------------
-        string binA = "0100 0010 1010 1101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
-        //48 is ascii for 0, 49 is 1
-        string binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
-        binB += "0";//data
-        (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
-        (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
-        binB += "0";//truth table
+            binB += "0";//data
+            (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
+            (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
+            binB += "0";//truth table
 
-        binB += "1";//data
-        (binA.at(5) == 48) ? binB += "1" : binB += "0";
-        (binA.at(6) == 48) ? binB += "1" : binB += "0";
-        binB += "0";//truth table
+            binB += "1";//data
+            (binA.at(5) == 48) ? binB += "1" : binB += "0";
+            (binA.at(6) == 48) ? binB += "1" : binB += "0";
+            binB += "0";//truth table
 
-        binB += "0";//data
-        (binA.at(9) == 48) ? binB += "1" : binB += "0";
-        (binA.at(10) == 48) ? binB += "1" : binB += "0";
-        binB += "0";//truth table
+            binB += "0";//data
+            (binA.at(9) == 48) ? binB += "1" : binB += "0";
+            (binA.at(10) == 48) ? binB += "1" : binB += "0";
+            binB += "0";//truth table
 
-        binB += "1";//data
-        (binA.at(13) == 48) ? binB += "1" : binB += "0";
-        (binA.at(14) == 48) ? binB += "1" : binB += "0";
-        binB += "1";//truth table
+            binB += "1";//data
+            (binA.at(13) == 48) ? binB += "1" : binB += "0";
+            (binA.at(14) == 48) ? binB += "1" : binB += "0";
+            binB += "1";//truth table
 //------------------Experimental AND gate ------------------
+        }
+        if(Register[instruction] == "01")
+        {
+//------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
+             binA = "0100 0011 0011 1101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+            //48 is ascii for 0, 49 is 1
+            binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
+            binB += "0";//data
+           (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
+            (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
+            binB += "0";//truth table
+
+            binB += "0";//data
+            (binA.at(5) == 48) ? binB += "1" : binB += "0";
+            (binA.at(6) == 48) ? binB += "1" : binB += "0";
+            binB += "1";//truth table
+
+            binB += "1";//data
+            (binA.at(9) == 48) ? binB += "1" : binB += "0";
+            (binA.at(10) == 48) ? binB += "1" : binB += "0";
+            binB += "0";//truth table
+
+            binB += "1";//data
+            (binA.at(13) == 48) ? binB += "1" : binB += "0";
+            (binA.at(14) == 48) ? binB += "1" : binB += "0";
+            binB += "1";//truth table
+//------------------Experimental memory transfer gate ------------------
+        }
         //cout << "port A configuration: " << binA;
         vector<string> outputA;
         vector<string> outputB;
@@ -294,6 +326,7 @@ int main()//server
             vector<int> output;
             stats+=pow (dataA.size(), dataA.size())/dataA.size()/dataA.size();
             vector<string> proc = portA(n,dataA,W,binA);
+            //upload configuration then compare data to program specifics
             outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
             proc = portB(n,dataB,W,binB);
             outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
@@ -330,18 +363,18 @@ int main()//server
             //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
         }
 
-            cout << "MemoryA: ";
-            for(int f = 0; f != outputA.size(); f++)
-            {
-                cout << outputA[f];
-            }
-            cout << endl;
-            cout << "MemoryB: ";
-            for(int f = 0; f != outputB.size(); f++)
-            {
-                cout << outputB[f];
-            }
-            cout << endl;
+        cout << "MemoryA: ";
+        for(int f = 0; f != outputA.size(); f++)
+        {
+            cout << outputA[f];
+        }
+        cout << endl;
+        cout << "MemoryB: ";
+        for(int f = 0; f != outputB.size(); f++)
+        {
+            cout << outputB[f];
+        }
+        cout << endl;
         //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     }
     //manually code program for linked qubits, process logical data according to program(all at once)...
