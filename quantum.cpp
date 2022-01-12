@@ -21,7 +21,7 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <unistd.h>
-int stages = 1;
+int iterations = 10;
 using namespace std;
 int LVA = 0;
 int LVB = 0;
@@ -145,6 +145,7 @@ vector<string> portA(int n,vector<int> data, int W,string binA)//Sync n & Partit
 }
 vector<string> portB( int n,vector<int> dataB, int W,string binB)//Sync n & Partition to time
 {
+
     vector<string> memory;
     //do calculation
     dataB[n];//entangled bit/Turing strip
@@ -246,26 +247,23 @@ vector<string> portB( int n,vector<int> dataB, int W,string binB)//Sync n & Part
             }
         }
     }
-    return memory;
+    return memory;//modify data using fresh memory to do recursive operations
 }
 int main()//server
 {
     string binA,binB;
     int W = 4095;
     //cout << "QBOX terminal: " << data.size() << " Qubits " << endl;
-    vector<string> Register = {"00","01"};
 
     srand (time(NULL));
     vector<int> ratios = {1,2};//use float for more precision
-    for(int j = 1; j < stages+1; j++)
+    for(int j = 1; j < iterations+1; j++)
     {
-        int instruction = rand() % 2;
-        if(Register[instruction] == "00")
-        {
+        //upload configuration then compare data to program specifics
             //------------------Experimental AND gate ------------------
-             binA = "0100001010101101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+            binA = "0100001010101101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
             //48 is ascii for 0, 49 is 1
-             binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+            binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
             binB += "0";//data
             (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
@@ -287,16 +285,14 @@ int main()//server
             (binA.at(14) == 48) ? binB += "1" : binB += "0";
             binB += "1";//truth table
 //------------------Experimental AND gate ------------------
-        }
-        if(Register[instruction] == "01")
-        {
+
 //------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
-             binA = "0100001100111101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+            binA = "0100001100111101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
             //48 is ascii for 0, 49 is 1
             binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
             binB += "0";//data
-           (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
+            (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
             (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
             binB += "0";//truth table
 
@@ -315,7 +311,6 @@ int main()//server
             (binA.at(14) == 48) ? binB += "1" : binB += "0";
             binB += "1";//truth table
 //------------------Experimental memory transfer gate ------------------
-        }
         //cout << "port A configuration: " << binA;
         vector<string> outputA;
         vector<string> outputB;
@@ -325,8 +320,8 @@ int main()//server
 
             vector<int> output;
             stats+=pow (dataA.size(), dataA.size())/dataA.size()/dataA.size();
+
             vector<string> proc = portA(n,dataA,W,binA);
-            //upload configuration then compare data to program specifics
             outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
             proc = portB(n,dataB,W,binB);
             outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
@@ -379,6 +374,6 @@ int main()//server
     }
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
-    cout << "total qubit activations: " << dataA.size()*stages << " in " << stages << " stages, " << " Total teleportations/Logic gate activations " << telestats << endl;
+    cout << "total qubit activations: " << dataA.size()*iterations << " in " << iterations << " iterations, " << " Total teleportations/Logic gate activations " << telestats << endl;
     return 0;
 }
