@@ -21,7 +21,6 @@
 #include <sstream>
 #include <bits/stdc++.h>
 #include <unistd.h>
-int iterations = 10;
 using namespace std;
 int LVA = 0;
 int LVB = 0;
@@ -30,7 +29,7 @@ long long int telestats = 0;
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
 long long int stats = 0; // todo, implement extremely large numbers
-vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions)//Sync n & Partition to time
+vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions,vector<int> program)//Sync n & Partition to time
 {
     //decide what to do
 
@@ -136,7 +135,7 @@ vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions)
     }
     return memory;//or modify data using fresh memory to do recursive operations
 }
-vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions)
+vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions,vector<int> program)
 {
     string binB = instructions[rand() % instructions.size()];
     vector<string> memory;
@@ -270,72 +269,70 @@ int main()//server
 //------------------Experimental memory transfer gate ------------------
 
 //set program
-    vector<int> program = {1,6,21,6,1,7,32,7,2,6,2,8};//example program refers to each instruction performed on data linearly according to configuration
-    for(int j = 1; j < iterations+1; j++)//select different logic gates per iteration
+//1 = AND, 2 = CNOT, 3 =  transfer output to data , 4 = iterate whole program once, 5 = if statement using next instruction if true
+    vector<int> program = {1,2,1,2,3,2,1,1,2,3,4};//example program refers to each instruction performed on data linearly according to configuration
+    //cout << "port A configuration: " << binA;
+    vector<string> outputA;
+    vector<string> outputB;
+    for(int n = 0; n < dataA.size(); n++)
     {
-        //cout << "port A configuration: " << binA;
-        vector<string> outputA;
-        vector<string> outputB;
-        for(int n = 0; n < dataA.size(); n++)
+        //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
+
+        vector<int> output;
+        stats+=pow (dataA.size(), dataA.size())/dataA.size()/dataA.size();
+
+        vector<string> proc = portA(n,dataA,W,instructionsA,program);//upload configuration
+        outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
+        proc = portB(n,dataB,W,instructionsB,program);
+        outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
+        cout << endl << "Qubit: " << n << endl;
+        cout << "Configuration A: " << binA << endl;
+        cout << "Configuration B: " << binB << endl;
+
+        cout <<  "dataA: ";
+        for(int f = 0; f < dataA.size(); f++)
         {
-            //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
-
-            vector<int> output;
-            stats+=pow (dataA.size(), dataA.size())/dataA.size()/dataA.size();
-
-            vector<string> proc = portA(n,dataA,W,instructionsA);//upload configuration
-            outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-            proc = portB(n,dataB,W,instructionsB);
-            outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-            cout << endl << "Qubit: " << n << endl;
-            cout << "Configuration A: " << binA << endl;
-            cout << "Configuration B: " << binB << endl;
-
-            cout <<  "dataA: ";
-            for(int f = 0; f < dataA.size(); f++)
-            {
-                cout << dataA[f];
-            }
-            cout << endl;
-
-            cout << "dataB: ";
-            for(int f = 0; f < dataB.size(); f++)
-            {
-                cout << dataB[f];
-            }
-            cout << endl;
-
-
-
-            //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
-            //done straight after teleportation
-
-            //once divided use data[n] & dataB[n] to check both doors at once and combine information instantly...
-            //load data
-            //shift memory into data after doing multiple boolean operations
-            //if desired logic gate has the boolean value, use within a math problem...
-            //check boolean values to see if program + data successfully ran.
-            //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
-            //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
-            //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
-        }
-
-        cout << "MemoryA: ";
-        for(int f = 0; f != outputA.size(); f++)
-        {
-            cout << outputA[f];
+            cout << dataA[f];
         }
         cout << endl;
-        cout << "MemoryB: ";
-        for(int f = 0; f != outputB.size(); f++)
+
+        cout << "dataB: ";
+        for(int f = 0; f < dataB.size(); f++)
         {
-            cout << outputB[f];
+            cout << dataB[f];
         }
         cout << endl;
-        //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
+
+
+
+        //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
+        //done straight after teleportation
+
+        //once divided use data[n] & dataB[n] to check both doors at once and combine information instantly...
+        //load data
+        //shift memory into data after doing multiple boolean operations
+        //if desired logic gate has the boolean value, use within a math problem...
+        //check boolean values to see if program + data successfully ran.
+        //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
+        //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
+        //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
     }
+
+    cout << "MemoryA: ";
+    for(int f = 0; f != outputA.size(); f++)
+    {
+        cout << outputA[f];
+    }
+    cout << endl;
+    cout << "MemoryB: ";
+    for(int f = 0; f != outputB.size(); f++)
+    {
+        cout << outputB[f];
+    }
+    cout << endl;
+    //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
-    cout << "total qubit activations: " << dataA.size()*iterations << " in " << iterations << " iterations, " << " Total teleportations/Logic gate activations " << telestats << endl;
+    cout << "total qubit activations: " << dataA.size() << " Total teleportations/Logic gate activations " << telestats << endl;
     return 0;
 }
