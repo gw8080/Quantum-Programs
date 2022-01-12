@@ -291,7 +291,7 @@ int main()//server
         if(Register[instruction] == "01")
         {
 //------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
-             binA = "0100 0011 0011 1101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+             binA = "0100001100111101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
             //48 is ascii for 0, 49 is 1
             binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
