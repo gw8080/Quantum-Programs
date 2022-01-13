@@ -22,30 +22,44 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
 using namespace std;
-int delay = 9000;//simulate bottleneck in microseconds
+int delay = 900;//simulate bottleneck in microseconds
 long long int telestats = 0;
 long long int stats = 0;
+int n = 0;
+vector<string> memoryA,memoryB;
+vector<int> dataA  =//set data to be processed
+{
+    1,0,1,1
+};
+vector<int> dataB =
+{
+    1,1,0,1
+};
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
-vector<string> portA(int X,vector<string> configuration,vector<int> program)//Sync n & Partition to time
+void portA(int X,vector<string> configuration,vector<int> program)//Sync n & Partition to time
 {
     int LVA = 0, LVB = 0;
     //decide what to do
-    vector<int> dataA  =//set data to be processed
+    if(X == 99)
     {
-        1,0,1,1
-    };
-
+         dataA.erase (dataA.begin(),dataA.begin()+dataA.size());
+        for(int g = 0; g < memoryA.size(); g++)
+        {
+            (memoryA[g].at(0) == 48) ? dataA.push_back(0) : dataA.push_back(1);
+        }
+return;
+    }
     for(int f = 0; f < dataA.size(); f++)
     {
         cout << dataA[f];
     }
     cout << endl;
     string binA = configuration[program[X]];
-    vector<string> memory;
+
     for(int Partition = 0; Partition != 2; Partition++)
     {
-        if(dataA[X] == binA.at(0)-48)
+        if(dataA[n] == binA.at(0)-48)
         {
             if(Partition == binA.at(1)-48)
             {
@@ -54,8 +68,9 @@ vector<string> portA(int X,vector<string> configuration,vector<int> program)//Sy
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
-                    memory.push_back(to_string(binA.at(3)-48));//truth table
+                    memoryA.push_back(to_string(binA.at(3)-48));//truth table
                     telestats++;
+                    break;
                     //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
                 }
             }
@@ -66,13 +81,14 @@ vector<string> portA(int X,vector<string> configuration,vector<int> program)//Sy
                 {
 //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
-                    memory.push_back(to_string(binA.at(6)-48));//truth table
+                    memoryA.push_back(to_string(binA.at(6)-48));//truth table
                     telestats++;
+                    break;
                     //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
                 }
             }
         }
-        if(dataA[X] == binA.at(7)-48)
+        if(dataA[n] == binA.at(7)-48)
         {
             if(Partition == binA.at(8)-48)
             {
@@ -81,8 +97,9 @@ vector<string> portA(int X,vector<string> configuration,vector<int> program)//Sy
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
-                    memory.push_back(to_string(binA.at(10)-48));//truth table
+                    memoryA.push_back(to_string(binA.at(10)-48));//truth table
                     telestats++;
+                    break;
                 }
             }
             if(Partition == binA.at(11)-48)
@@ -92,34 +109,40 @@ vector<string> portA(int X,vector<string> configuration,vector<int> program)//Sy
                 {
                     //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
-                    memory.push_back(to_string(binA.at(13)-48));//truth table
+                    memoryA.push_back(to_string(binA.at(13)-48));//truth table
                     telestats++;
+                    break;
                     //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
                 }
             }
         }
         usleep(delay);//for partition space
     }
-    return memory;//or modify data using fresh memory to do recursive operations
+    return;//or modify data using fresh memory to do recursive operations
 }
-vector<string> portB(int X,vector<string> configuration,vector<int> program)
+void portB(int X,vector<string> configuration,vector<int> program)
 {
     int LVA = 0, LVB = 0;
-    vector<int> dataB =
+
+    if(X == 99)
     {
-        1,1,0,1
-    };
+        dataA.erase (dataA.begin(),dataA.begin()+dataA.size());
+        for(int g = 0; g < memoryB.size(); g++)
+        {
+            (memoryB[g].at(0) == 48) ? dataB.push_back(0) : dataB.push_back(1);
+        }
+
+        return;
+    }
     for(int f = 0; f < dataB.size(); f++)
     {
         cout << dataB[f];
     }
-
     string binB = configuration[program[X]];
-    vector<string> memory;
     for(int Partition = 0; Partition != 2; Partition++)
     {
 
-        if(dataB[X] == binB.at(0)-48)
+        if(dataB[n] == binB.at(0)-48)
         {
             if(Partition == binB.at(1)-48)
             {
@@ -127,8 +150,9 @@ vector<string> portB(int X,vector<string> configuration,vector<int> program)
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
-                    memory.push_back(to_string(binB.at(3)-48));
+                    memoryB.push_back(to_string(binB.at(3)-48));
                     telestats++;
+                    break;
                 }
             }
             if(Partition == binB.at(4)-48)
@@ -137,12 +161,13 @@ vector<string> portB(int X,vector<string> configuration,vector<int> program)
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
-                    memory.push_back(to_string(binB.at(6)-48));
+                    memoryB.push_back(to_string(binB.at(6)-48));
                     telestats++;
+                    break;
                 }
             }
         }
-        if(dataB[X] == binB.at(7)-48)
+        if(dataB[n] == binB.at(7)-48)
         {
             if(Partition == binB.at(8)-48)
             {
@@ -150,8 +175,9 @@ vector<string> portB(int X,vector<string> configuration,vector<int> program)
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
-                    memory.push_back(to_string(binB.at(10)-48));
+                    memoryB.push_back(to_string(binB.at(10)-48));
                     telestats++;
+                    break;
                 }
             }
             if(Partition == binB.at(11)-48)
@@ -160,14 +186,15 @@ vector<string> portB(int X,vector<string> configuration,vector<int> program)
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
-                    memory.push_back(to_string(binB.at(13)-48));
+                    memoryB.push_back(to_string(binB.at(13)-48));
                     telestats++;
+                    break;
                 }
             }
         }
         usleep(delay);
     }
-    return memory;
+    return;
 }
 int main()//server
 {
@@ -252,36 +279,35 @@ int main()//server
 //------------------Experimental memory transfer gate ------------------
 
 //set program
-//0 = AND, 1 = XOR, 2 = CNOT, 3 =  transfer output to data , 4 = iterate whole program once, 5 = if statement using next instruction if true, 6 = else if statement, 7 = end if statement, 8 = perform half/full adder on next 8 bits of data
-    vector<int> programA = {0,0,0,0};//example program refers to each instruction performed on data linearly according to configuration
-    vector<int> programB = {1,1,1,1};//example program refers to each instruction performed on data linearly according to configuration
+//0 = AND, 1 = XOR, 2 = CNOT , 3 = iterate whole program once with new data, 4 = if statement using next instruction if true, 5 = else if statement, 6 = end if statement
+    vector<int> programA = {1,1,1,3};//example program refers to each instruction performed on data linearly according to configuration
+    vector<int> programB = {0,0,0,3};//example program refers to each instruction performed on data linearly according to configuration
 
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
+    int recursions = 9, m = 0;;
     for(int X = 0; X != programA.size(); X++)
     {
-        cout << endl << "Qubit: " << X << endl;
-        //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
-        vector<string> proc = portA(X,configurationA,programA);//upload configuration
-        outputA.insert(outputA.end(), proc.begin(), proc.end());
-        proc = portB(X,configurationB,programB);
-        outputB.insert(outputB.end(), proc.begin(), proc.end());
-
+        if( programA[X] == 3)
+        {
+            if (m == recursions){
+                break;
+            }
+            portA(99,configurationA,programA);
+            portB(99,configurationB,programB);
+            X = 0;
+            m++;
+        }
+        if( programA[X] == 0 ||  programA[X] == 1 ||  programA[X] == 2)
+        {
+            cout << endl << "Qubit: " << X << endl;
+            //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
+            portA(X,configurationA,programA);//upload configuration
+            portB(X,configurationB,programB);
+            n++;
+        }
     }
-    cout << endl;
-    cout << "MemoryA: ";
-    for(int f = 0; f != outputA.size(); f++)
-    {
-        cout << outputA[f];
-    }
-    cout << endl;
-    cout << "MemoryB: ";
-    for(int f = 0; f != outputB.size(); f++)
-    {
-        cout << outputB[f];
-    }
-    cout << endl;
     //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
