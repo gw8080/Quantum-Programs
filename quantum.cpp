@@ -111,8 +111,9 @@ void portA(long long int X,vector<string> configuration,vector<int> program)//Sy
                 }
             }
         }
-        usleep(delay);//for partition space
+      //usleep(delay); for partition space on quantum hardware
     }
+      usleep(delay);
     return;//or modify data using fresh memory to do recursive operations
 }
 void portB(long long int X,vector<string> configuration,vector<int> program)
@@ -181,8 +182,9 @@ void portB(long long int X,vector<string> configuration,vector<int> program)
                 }
             }
         }
-        usleep(delay);
+              //usleep(delay); for partition space on quantum hardware
     }
+    usleep(delay);
     return;
 }
 int main()//server
@@ -275,7 +277,7 @@ int main()//server
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
-    long long int recursions = 10000, m = 0;
+    long long int recursions = 1000000, m = 0;
     for(long long int X = 0; X < programA.size(); X++)
     {
         if( programA[X] == 3)
