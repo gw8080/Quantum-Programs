@@ -131,7 +131,6 @@ void portB(long long int X,vector<string> configuration,vector<int> program)
     string binB = configuration[program[X]];
     for(int Partition = 0; Partition != 2; Partition++)
     {
-
         if(dataB[n] == binB.at(0)-48)
         {
             if(Partition == binB.at(1)-48)
