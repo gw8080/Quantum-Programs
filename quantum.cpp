@@ -22,39 +22,37 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
 using namespace std;
-int LVA = 0;
-int LVB = 0;
-int delay = 9000;//simulate bottleneck
+int delay = 9000;//simulate bottleneck in microseconds
 long long int telestats = 0;
+long long int stats = 0;
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
-long long int stats = 0; // todo, implement extremely large numbers
-vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions,vector<int> program)//Sync n & Partition to time
+vector<string> portA(int X,vector<string> configuration,vector<int> program)//Sync n & Partition to time
 {
+    int LVA = 0, LVB = 0;
     //decide what to do
+    vector<int> dataA  =//set data to be processed
+    {
+        1,0,1,1
+    };
 
-    string binA = instructions[rand() % instructions.size()];
+    for(int f = 0; f < dataA.size(); f++)
+    {
+        cout << dataA[f];
+    }
+    cout << endl;
+    string binA = configuration[program[X]];
     vector<string> memory;
     for(int Partition = 0; Partition != 2; Partition++)
     {
-        if(dataA[n] == binA.at(0)-48)
+        if(dataA[X] == binA.at(0)-48)
         {
             if(Partition == binA.at(1)-48)
             {
                 LVA = binA.at(2)-48;//light valve activate according to configuration
-                usleep(delay);
                 if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
-                    //check entanglement property and check time & partition information of the entanglement event instead
-                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                    //n = qubit purpose
-
-                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                    //A = 0011 0100 1111 1000
-                    //B = 0000 0111 1100 1011
-                    //AND gate
-                    //qubit + partition = alpha & beta
+                    //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
                     memory.push_back(to_string(binA.at(3)-48));//truth table
                     telestats++;
@@ -64,19 +62,9 @@ vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions,
             if(Partition == binA.at(4)-48)
             {
                 LVA = binA.at(5)-48;//light valve activate according to data
-                usleep(delay);
                 if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
-                    //check entanglement property and check time & partition information of the entanglement event instead
-                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                    //n = qubit purpose
-
-                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                    //A = 0011 0100 1111 1000
-                    //B = 0000 0111 1100 1011
-                    //AND gate
-                    //qubit + partition = alpha & beta
+//check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
                     memory.push_back(to_string(binA.at(6)-48));//truth table
                     telestats++;
@@ -84,47 +72,25 @@ vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions,
                 }
             }
         }
-        if(dataA[n] == binA.at(7)-48)
+        if(dataA[X] == binA.at(7)-48)
         {
             if(Partition == binA.at(8)-48)
             {
                 LVA = binA.at(9)-48;//light valve activate according to data
-                usleep(delay);
                 if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
-                    //check entanglement property and check time & partition information of the entanglement event instead
-                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                    //n = qubit purpose
-
-                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                    //A = 0011 0100 1111 1000
-                    //B = 0000 0111 1100 1011
-                    //AND gate
-                    //qubit + partition = alpha & beta
-
+                    //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
                     memory.push_back(to_string(binA.at(10)-48));//truth table
                     telestats++;
-                    //example memory copy, use B/ratios[T] to determine qubit then use a NOT gate to fashion new bit, save to portA/portB
                 }
             }
             if(Partition == binA.at(11)-48)
             {
                 LVA = binA.at(12)-48;//light valve activate according to data
-                usleep(delay);
                 if(rand() % 2 == 0)// detect photon source(other port should detect too, when they correlate, interesting things start to happen, requires parallel processes, but for now it is simulating using randomness)
                 {
-                    //check entanglement property and check time & partition information of the entanglement event instead
-                    ////cout << "Cycle: " << T << ": " << Alpha << " " << Beta << endl;//if the cycle is linked to each qubit's light valves therefore data & dataB can have all combinations processed via T & partition almost instantly
-                    //TODO, implement logic gates using qubits to truth table and calibrate bits according to specific setup requirements
-                    //n = qubit purpose
-
-                    //example qubit-partition-LV-truth table configuration // qubits are required to build logic gate therefore partition and LV configuration needs to construct it, with a matching truth table
-                    //A = 0011 0100 1111 1000
-                    //B = 0000 0111 1100 1011
-                    //AND gate
-                    //qubit + partition = alpha & beta
+                    //check entanglement property and check time & partition information of the entanglement event instead, assign to truth table equivalent to a logic gate operation
                     //cout << "Teleported [off/on] to port A!" << endl;
                     memory.push_back(to_string(binA.at(13)-48));//truth table
                     telestats++;
@@ -132,21 +98,32 @@ vector<string> portA(int n,vector<int> dataA, int W,vector<string> instructions,
                 }
             }
         }
+        usleep(delay);//for partition space
     }
     return memory;//or modify data using fresh memory to do recursive operations
 }
-vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions,vector<int> program)
+vector<string> portB(int X,vector<string> configuration,vector<int> program)
 {
-    string binB = instructions[rand() % instructions.size()];
+    int LVA = 0, LVB = 0;
+    vector<int> dataB =
+    {
+        1,1,0,1
+    };
+    for(int f = 0; f < dataB.size(); f++)
+    {
+        cout << dataB[f];
+    }
+
+    string binB = configuration[program[X]];
     vector<string> memory;
     for(int Partition = 0; Partition != 2; Partition++)
     {
-        if(dataB[n] == binB.at(0)-48)
+
+        if(dataB[X] == binB.at(0)-48)
         {
             if(Partition == binB.at(1)-48)
             {
                 LVB = binB.at(2)-48;
-                usleep(delay);
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
@@ -157,7 +134,6 @@ vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions
             if(Partition == binB.at(4)-48)
             {
                 LVB = binB.at(5)-48;
-                usleep(delay);
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
@@ -166,12 +142,11 @@ vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions
                 }
             }
         }
-        if(dataB[n] == binB.at(7)-48)
+        if(dataB[X] == binB.at(7)-48)
         {
             if(Partition == binB.at(8)-48)
             {
                 LVB = binB.at(9)-48;
-                usleep(delay);
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
@@ -182,7 +157,6 @@ vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions
             if(Partition == binB.at(11)-48)
             {
                 LVB = binB.at(12)-48;
-                usleep(delay);
                 if(rand() % 2 == 0)
                 {
                     //cout << "Teleported [off/on] to port B!" << endl;
@@ -191,29 +165,18 @@ vector<string> portB( int n,vector<int> dataB, int W,vector<string> instructions
                 }
             }
         }
+        usleep(delay);
     }
     return memory;
 }
 int main()//server
 {
-    int W = 4095;
-
     srand (time(NULL));
-
-    vector<int> dataA  =//set data to be processed
-    {
-        1,0,1,1,
-    };
-    vector<int> dataB =
-    {
-        1,1,0,1,
-    };
-    cout << "QBOX terminal: " << dataA.size() << " Qubits " << endl;
-
-
-    vector<string> instructionsA, instructionsB;//set instructions
+    cout << "Qubox terminal";
+    vector<string> configurationA, configurationB;//set config
     //------------------Experimental AND gate ------------------
-    string binA = "0100001010101101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+    //segment according to pattern 4,3,4,3 part of the mirrored configuration is dropped, eg "0100 010 1010 101"
+    string binA = "01000101010101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
     //48 is ascii for 0, 49 is 1
     string binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
@@ -222,26 +185,23 @@ int main()//server
     (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
     binB += "0";//truth table
 
-    binB += "1";//data
+    (binA.at(4) == 48) ? binB += "1" : binB += "0";
     (binA.at(5) == 48) ? binB += "1" : binB += "0";
-    (binA.at(6) == 48) ? binB += "1" : binB += "0";
     binB += "0";//truth table
 
     binB += "0";//data
+    (binA.at(8) == 48) ? binB += "1" : binB += "0";
     (binA.at(9) == 48) ? binB += "1" : binB += "0";
-    (binA.at(10) == 48) ? binB += "1" : binB += "0";
     binB += "0";//truth table
 
-    binB += "1";//data
-    (binA.at(13) == 48) ? binB += "1" : binB += "0";
-    (binA.at(14) == 48) ? binB += "1" : binB += "0";
+    (binA.at(11) == 48) ? binB += "1" : binB += "0";
+    (binA.at(12) == 48) ? binB += "1" : binB += "0";
     binB += "1";//truth table
-    instructionsA.push_back(binA);
-    instructionsB.push_back(binB);
+    configurationA.push_back(binA);
+    configurationB.push_back(binB);
 //------------------Experimental AND gate ------------------
-
-    //------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
-    binA = "0100001100111101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+//------------------Experimental XOR gate ------------------
+    binA = "01000111011100"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
     //48 is ascii for 0, 49 is 1
     binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 
@@ -250,74 +210,66 @@ int main()//server
     (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
     binB += "0";//truth table
 
-    binB += "0";//data
+    (binA.at(4) == 48) ? binB += "1" : binB += "0";
     (binA.at(5) == 48) ? binB += "1" : binB += "0";
-    (binA.at(6) == 48) ? binB += "1" : binB += "0";
     binB += "1";//truth table
 
-    binB += "1";//data
+    binB += "0";//data
+    (binA.at(8) == 48) ? binB += "1" : binB += "0";
     (binA.at(9) == 48) ? binB += "1" : binB += "0";
-    (binA.at(10) == 48) ? binB += "1" : binB += "0";
+    binB += "1";//truth table
+
+    (binA.at(11) == 48) ? binB += "1" : binB += "0";
+    (binA.at(12) == 48) ? binB += "1" : binB += "0";
+    binB += "0";//truth table
+    configurationA.push_back(binA);
+    configurationB.push_back(binB);
+//------------------Experimental XOR gate ------------------
+    //------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
+    binA = "01000110011101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+    //48 is ascii for 0, 49 is 1
+    binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
+
+    binB += "0";//data
+    (binA.at(1) == 48) ? binB += "1" : binB += "0";//partition
+    (binA.at(2) == 48) ? binB += "1" : binB += "0";//light valve
     binB += "0";//truth table
 
-    binB += "1";//data
-    (binA.at(13) == 48) ? binB += "1" : binB += "0";
-    (binA.at(14) == 48) ? binB += "1" : binB += "0";
+    (binA.at(4) == 48) ? binB += "1" : binB += "0";
+    (binA.at(5) == 48) ? binB += "1" : binB += "0";
     binB += "1";//truth table
-    instructionsA.push_back(binA);
-    instructionsB.push_back(binB);
+
+    binB += "1";//data
+    (binA.at(8) == 48) ? binB += "1" : binB += "0";
+    (binA.at(9) == 48) ? binB += "1" : binB += "0";
+    binB += "0";//truth table
+
+    (binA.at(11) == 48) ? binB += "1" : binB += "0";
+    (binA.at(12) == 48) ? binB += "1" : binB += "0";
+    binB += "1";//truth table
+    configurationA.push_back(binA);
+    configurationB.push_back(binB);
 //------------------Experimental memory transfer gate ------------------
 
 //set program
-//1 = AND, 2 = CNOT, 3 =  transfer output to data , 4 = iterate whole program once, 5 = if statement using next instruction if true, 6 = else if statement, 7 = end if statement, 8 = perform half/full adder on next 8 bits of data
-    vector<int> program = {1,2,1,2,3,2,1,1,2,3,4};//example program refers to each instruction performed on data linearly according to configuration
+//0 = AND, 1 = XOR, 2 = CNOT, 3 =  transfer output to data , 4 = iterate whole program once, 5 = if statement using next instruction if true, 6 = else if statement, 7 = end if statement, 8 = perform half/full adder on next 8 bits of data
+    vector<int> programA = {0,0,0,0};//example program refers to each instruction performed on data linearly according to configuration
+    vector<int> programB = {1,1,1,1};//example program refers to each instruction performed on data linearly according to configuration
+
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
-    for(int n = 0; n < dataA.size(); n++)
+    for(int X = 0; X != programA.size(); X++)
     {
+        cout << endl << "Qubit: " << X << endl;
         //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
+        vector<string> proc = portA(X,configurationA,programA);//upload configuration
+        outputA.insert(outputA.end(), proc.begin(), proc.end());
+        proc = portB(X,configurationB,programB);
+        outputB.insert(outputB.end(), proc.begin(), proc.end());
 
-        vector<int> output;
-        stats+=pow (dataA.size(), dataA.size())/dataA.size()/dataA.size();
-
-        vector<string> proc = portA(n,dataA,W,instructionsA,program);//upload configuration
-        outputA.insert(outputA.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-        proc = portB(n,dataB,W,instructionsB,program);
-        outputB.insert(outputB.end(), proc.begin(), proc.end());//transfer entire function to physical unit with own time evolution, operate in parallel
-        cout << endl << "Qubit: " << n << endl;
-        cout << "Configuration A: " << binA << endl;
-        cout << "Configuration B: " << binB << endl;
-
-        cout <<  "dataA: ";
-        for(int f = 0; f < dataA.size(); f++)
-        {
-            cout << dataA[f];
-        }
-        cout << endl;
-
-        cout << "dataB: ";
-        for(int f = 0; f < dataB.size(); f++)
-        {
-            cout << dataB[f];
-        }
-        cout << endl;
-
-
-
-        //instead do memories & computations nonlocal to server(portA & portB) to maximise effect of quantum logic gate
-        //done straight after teleportation
-
-        //once divided use data[n] & dataB[n] to check both doors at once and combine information instantly...
-        //load data
-        //shift memory into data after doing multiple boolean operations
-        //if desired logic gate has the boolean value, use within a math problem...
-        //check boolean values to see if program + data successfully ran.
-        //communication is naturally 10,000 times faster due to speed of quantum entanglement(once memory and logic is in portA and portB)
-        //by allowing both light valves to operate using a previous qubit independent of its own sequence, the activity can effectively link qubits together into a series causing non-linear exponentiality, each qubit is sequential, exponential and non-linear at the same time.
-        //capable of sequential Turing machine operations on memory, all at once given enough linked qubits...
     }
-
+    cout << endl;
     cout << "MemoryA: ";
     for(int f = 0; f != outputA.size(); f++)
     {
@@ -333,6 +285,6 @@ int main()//server
     //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
-    cout << "total qubit activations: " << dataA.size() << " Total teleportations/Logic gate activations " << telestats << endl;
+    cout << endl << " Total teleportations/Logic gate activations " << telestats << endl;
     return 0;
 }
