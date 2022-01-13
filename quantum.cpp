@@ -22,10 +22,10 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
 using namespace std;
-int delay = 900;//simulate bottleneck in microseconds
+int delay = 50;//simulate bottleneck in microseconds
 long long int telestats = 0;
 long long int stats = 0;
-int n = 0;
+long long int n = 0;
 vector<string> memoryA,memoryB;
 vector<int> dataA  =//set data to be processed
 {
@@ -37,26 +37,21 @@ vector<int> dataB =
 };
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
-void portA(int X,vector<string> configuration,vector<int> program)//Sync n & Partition to time
+void portA(long long int X,vector<string> configuration,vector<int> program)//Sync n & Partition to time
 {
     int LVA = 0, LVB = 0;
     //decide what to do
-    if(X == 99)
+    if(X == -1)
     {
-         dataA.erase (dataA.begin(),dataA.begin()+dataA.size());
+        dataA.erase (dataA.begin(),dataA.begin()+dataA.size());
         for(int g = 0; g < memoryA.size(); g++)
         {
             (memoryA[g].at(0) == 48) ? dataA.push_back(0) : dataA.push_back(1);
         }
-return;
+        memoryA.erase (memoryA.begin(),memoryA.begin()+memoryA.size());
+        return;
     }
-    for(int f = 0; f < dataA.size(); f++)
-    {
-        cout << dataA[f];
-    }
-    cout << endl;
     string binA = configuration[program[X]];
-
     for(int Partition = 0; Partition != 2; Partition++)
     {
         if(dataA[n] == binA.at(0)-48)
@@ -120,23 +115,18 @@ return;
     }
     return;//or modify data using fresh memory to do recursive operations
 }
-void portB(int X,vector<string> configuration,vector<int> program)
+void portB(long long int X,vector<string> configuration,vector<int> program)
 {
     int LVA = 0, LVB = 0;
-
-    if(X == 99)
+    if(X == -1)
     {
-        dataA.erase (dataA.begin(),dataA.begin()+dataA.size());
+        dataB.erase (dataB.begin(),dataB.begin()+dataB.size());
         for(int g = 0; g < memoryB.size(); g++)
         {
             (memoryB[g].at(0) == 48) ? dataB.push_back(0) : dataB.push_back(1);
         }
-
+        memoryB.erase (memoryB.begin(),memoryB.begin()+memoryB.size());
         return;
-    }
-    for(int f = 0; f < dataB.size(); f++)
-    {
-        cout << dataB[f];
     }
     string binB = configuration[program[X]];
     for(int Partition = 0; Partition != 2; Partition++)
@@ -286,22 +276,24 @@ int main()//server
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
-    int recursions = 9, m = 0;;
-    for(int X = 0; X != programA.size(); X++)
+    long long int recursions = 10000, m = 0;
+    for(long long int X = 0; X < programA.size(); X++)
     {
         if( programA[X] == 3)
         {
-            if (m == recursions){
+            if (m >= recursions)
+            {
                 break;
             }
-            portA(99,configurationA,programA);
-            portB(99,configurationB,programB);
+            portA(-1,configurationA,programA);
+            portB(-1,configurationB,programB);
             X = 0;
+            n = 0;
             m++;
         }
         if( programA[X] == 0 ||  programA[X] == 1 ||  programA[X] == 2)
         {
-            cout << endl << "Qubit: " << X << endl;
+            //cout << endl << "Qubit: " << X << endl;
             //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
             portA(X,configurationA,programA);//upload configuration
             portB(X,configurationB,programB);
@@ -311,6 +303,6 @@ int main()//server
     //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
-    cout << endl << " Total teleportations/Logic gate activations " << telestats << endl;
+    cout << endl << "Total teleportations/Logic gate activations " << telestats << endl;
     return 0;
 }
