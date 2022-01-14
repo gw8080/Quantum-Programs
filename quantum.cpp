@@ -29,11 +29,11 @@ long long int n = 0;
 vector<string> memoryA,memoryB;
 vector<int> dataA  =//set data to be processed
 {
-    1,0,1,1
+    1,1,1,1
 };
 vector<int> dataB =
 {
-    1,1,0,1
+   1,1,1,1
 };
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
@@ -111,9 +111,9 @@ void portA(long long int X,vector<string> configuration,vector<int> program)//Sy
                 }
             }
         }
-      //usleep(delay); for partition space on quantum hardware
+        //usleep(delay); for partition space on quantum hardware
     }
-      usleep(delay);
+    usleep(delay);
     return;//or modify data using fresh memory to do recursive operations
 }
 void portB(long long int X,vector<string> configuration,vector<int> program)
@@ -182,7 +182,7 @@ void portB(long long int X,vector<string> configuration,vector<int> program)
                 }
             }
         }
-              //usleep(delay); for partition space on quantum hardware
+        //usleep(delay); for partition space on quantum hardware
     }
     usleep(delay);
     return;
@@ -271,13 +271,12 @@ int main()//server
 
 //set program
 //0 = AND, 1 = XOR, 2 = CNOT , 3 = iterate whole program once with new data, 4 = if statement using next instruction if true, 5 = else if statement, 6 = end if statement
-    vector<int> programA = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3};//example program refers to each instruction performed on data linearly according to configuration
-    vector<int> programB = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3};//example program refers to each instruction performed on data linearly according to configuration
-
+    vector<int> programA = {1,1,1,3};//example program refers to each instruction performed on data linearly according to configuration
+    vector<int> programB = {0,0,0,3};//example program refers to each instruction performed on data linearly according to configuration
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
-    long long int recursions = 10000, m = 0;
+    long long int recursions = 100000, m = 0;
     for(long long int X = 0; X < programA.size(); X++)
     {
         if( programA[X] == 3 ||  programB[X] == 3)
