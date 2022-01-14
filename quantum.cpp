@@ -22,7 +22,7 @@
 #include <bits/stdc++.h>
 #include <unistd.h>
 using namespace std;
-int delay = 50;//simulate bottleneck in microseconds
+int delay = 2;//simulate bottleneck in microseconds
 long long int telestats = 0;
 long long int stats = 0;
 long long int n = 0;
@@ -271,16 +271,16 @@ int main()//server
 
 //set program
 //0 = AND, 1 = XOR, 2 = CNOT , 3 = iterate whole program once with new data, 4 = if statement using next instruction if true, 5 = else if statement, 6 = end if statement
-    vector<int> programA = {1,1,1,3};//example program refers to each instruction performed on data linearly according to configuration
-    vector<int> programB = {0,0,0,3};//example program refers to each instruction performed on data linearly according to configuration
+    vector<int> programA = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3};//example program refers to each instruction performed on data linearly according to configuration
+    vector<int> programB = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3};//example program refers to each instruction performed on data linearly according to configuration
 
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
-    long long int recursions = 1000000, m = 0;
+    long long int recursions = 10000, m = 0;
     for(long long int X = 0; X < programA.size(); X++)
     {
-        if( programA[X] == 3)
+        if( programA[X] == 3 ||  programB[X] == 3)
         {
             if (m >= recursions)
             {
@@ -292,7 +292,7 @@ int main()//server
             n = 0;
             m++;
         }
-        if( programA[X] == 0 ||  programA[X] == 1 ||  programA[X] == 2)
+        if( programA[X] == 0 ||  programA[X] == 1 ||  programA[X] == 2 || programB[X] == 0 ||  programB[X] == 1 ||  programB[X] == 2)
         {
             //cout << endl << "Qubit: " << X << endl;
             //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
