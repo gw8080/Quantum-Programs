@@ -16,3 +16,5 @@ I may be only be able to access one qubit in my quantum setup and not be able to
 
 data can vary by manipulating control qubits and computation is inherent 
 
+Data can vary by manipulating control qubits where computation is inherent. To check results of a problem within the data using instantaneous computation/communication.
+
