@@ -14,7 +14,5 @@ This expansion should be equivalent to finding the a sequence from a superpositi
 
 I may be only be able to access one qubit in my quantum setup and not be able to really delve into the parallel nature of computation although only one more partition in each partition cycle(time division multiplex) is required to extend the truth table used for logic gates by double, a control qubit...
 
-data can vary by manipulating control qubits and computation is inherent 
-
 Data can vary by manipulating control qubits where computation is inherent. To check results of a problem within the data using instantaneous computation/communication.
 
