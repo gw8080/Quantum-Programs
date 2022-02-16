@@ -8,11 +8,12 @@ int main()
     int MaxRange = 999;
     while(true)
     {
-        int a =  rand() % 100, b = rand() % 100, c = rand() % 100;
+        int a = rand() % 100, b = rand() % 100, c = rand() % 100;
         int slope = 0;
         for(int a = 1; a < MaxRange; a++)
         {
-            if(a*b & c == a*b)//a*b represents arithmetic table
+            int comp = a*b;
+            if(comp & c == comp)//a*b represents arithmetic table
             {
                 cout << a << "*" << b << "=" << c << endl;
                 break;
@@ -21,4 +22,3 @@ int main()
     }
     return 0;
 }
-
