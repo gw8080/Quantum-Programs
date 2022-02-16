@@ -9,7 +9,6 @@ int main()
     while(true)
     {
         int a = rand() % 100, b = rand() % 100, c = rand() % 100;
-        int slope = 0;
         for(int a = 1; a < MaxRange; a++)
         {
             int comp = a*b;
