@@ -98,9 +98,9 @@ void portA(long long int X,vector<string> configuration,vector<int> program)//Sy
                 }
             }
         }
-        //usleep(delay); for partition space on quantum hardware
+        delay; //partition space on quantum hardware
     }
-    return;//or modify data using fresh memory to do recursive operations
+    return;
 }
 void portB(long long int X,vector<string> configuration,vector<int> program)
 {
@@ -158,7 +158,7 @@ void portB(long long int X,vector<string> configuration,vector<int> program)
                 }
             }
         }
-        //usleep(delay); for partition space on quantum hardware
+        delay;//partition space on quantum hardware
     }
     return;
 }
