@@ -250,7 +250,7 @@ int main()//server
     {
        1,1,1,1
     };
-                                     //upload configuration, work on not requiring reflashing per program step
+    //upload configuration, work on not requiring reflashing per program step
     //port(program step, configuration,program)
     portA(0, configurationA, programA, dataA);
     portB(0, configurationB, programB, dataB);
