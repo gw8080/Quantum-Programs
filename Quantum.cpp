@@ -262,7 +262,6 @@ int main()//server
     portB(2, configurationB, programB);
     portA(3, configurationA, programA);
     portB(3, configurationB, programB);
-
     //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
