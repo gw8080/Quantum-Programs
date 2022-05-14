@@ -25,7 +25,6 @@ long long int telestats = 0;
 long long int stats = 0;
 long long int n = 0;
 vector<string> memoryA,memoryB;
-
 //light valve consists of a optical switch and an inline polariser
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
