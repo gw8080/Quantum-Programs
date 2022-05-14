@@ -25,24 +25,17 @@ long long int telestats = 0;
 long long int stats = 0;
 long long int n = 0;
 vector<string> memoryA,memoryB;
-vector<int> dataA  =//set data to be processed
-{
-    1,1,1,1
-};
-vector<int> dataB =
-{
-   1,1,1,1
-};
+
 //light valve consists of a optical switch and an inline polariser
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
-void portA(long long int X,vector<string> configuration,vector<int> program)//Sync n & Partition to time
+void portA(long long int X,vector<string> configuration,vector<int> program,vector<int> data)//Sync n & Partition to time
 {
     int LVA = 0, LVB = 0;
     string binA = configuration[program[X]];
     for(int Partition = 0; Partition != 2; Partition++)
     {
-        if(dataA[n] == binA.at(0)-48)
+        if(data[n] == binA.at(0)-48)
         {
             if(Partition == binA.at(1)-48)
             {
@@ -71,7 +64,7 @@ void portA(long long int X,vector<string> configuration,vector<int> program)//Sy
                 }
             }
         }
-        if(dataA[n] == binA.at(7)-48)
+        if(data[n] == binA.at(7)-48)
         {
             if(Partition == binA.at(8)-48)
             {
@@ -103,13 +96,13 @@ void portA(long long int X,vector<string> configuration,vector<int> program)//Sy
     }
     return;
 }
-void portB(long long int X,vector<string> configuration,vector<int> program)
+void portB(long long int X,vector<string> configuration,vector<int> program, vector<int> data)
 {
     int LVA = 0, LVB = 0;
     string binB = configuration[program[X]];
     for(int Partition = 0; Partition != 2; Partition++)
     {
-        if(dataB[n] == binB.at(0)-48)
+        if(data[n] == binB.at(0)-48)
         {
             if(Partition == binB.at(1)-48)
             {
@@ -134,7 +127,7 @@ void portB(long long int X,vector<string> configuration,vector<int> program)
                 }
             }
         }
-        if(dataB[n] == binB.at(7)-48)
+        if(data[n] == binB.at(7)-48)
         {
             if(Partition == binB.at(8)-48)
             {
@@ -249,19 +242,24 @@ int main()//server
 //0 = AND, 1 = XOR, 2 = CNOT , 3 = iterate whole program once with new data, 4 = if statement using next instruction if true, 5 = else if statement, 6 = end if statement
     vector<int> programA = {1,1,1,2};//example program refers to each instruction performed on data linearly according to configuration
     vector<int> programB = {0,0,0,2};//example program refers to each instruction performed on data linearly according to configuration
-    //cout << "port A configuration: " << binA;
-    vector<string> outputA;
-    vector<string> outputB;
-    //upload configuration, work on not requiring reflashing per program step
+    vector<int> dataA =//set data to be processed
+    {
+        1,1,1,1
+    };
+    vector<int> dataB =
+    {
+       1,1,1,1
+    };
+                                     //upload configuration, work on not requiring reflashing per program step
     //port(program step, configuration,program)
-    portA(0, configurationA, programA);
-    portB(0, configurationB, programB);
-    portA(1, configurationA, programA);
-    portB(1, configurationB, programB);
-    portA(2, configurationA, programA);
-    portB(2, configurationB, programB);
-    portA(3, configurationA, programA);
-    portB(3, configurationB, programB);
+    portA(0, configurationA, programA, dataA);
+    portB(0, configurationB, programB, dataB);
+    portA(1, configurationA, programA, dataA);
+    portB(1, configurationB, programB, dataB);
+    portA(2, configurationA, programA, dataA);
+    portB(2, configurationB, programB, dataB);
+    portA(3, configurationA, programA, dataA);
+    portB(3, configurationB, programB, dataB);
     //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
