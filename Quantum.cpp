@@ -256,11 +256,8 @@ int main()//server
 	//port(program step, configuration,program)
 	vector<int> dataC = portA(0, configurationA, programA, dataA);
 	vector<int> dataD = portB(0, configurationA, programA, dataA);
-
 	vector<int> dataE = portA(1, configurationA, programA, dataB);
 	vector<int> dataF = portB(1, configurationA, programA, dataB);
-
-
 	//cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
 	//manually code program for linked qubits, process logical data according to program(all at once)...
 	//A logic gate circuit should be constructed using multiple qubits
