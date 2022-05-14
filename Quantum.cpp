@@ -252,16 +252,17 @@ int main()//server
     //cout << "port A configuration: " << binA;
     vector<string> outputA;
     vector<string> outputB;
-    for(long long int X = 0; X < programA.size(); X++)
-    {
-     
-            //cout << endl << "Qubit: " << X << endl;
-            //cout << endl  << "______________________" << endl << "New qubit, n = " << n << endl << "______________________" << endl;
-            portA(X,configurationA,programA);//upload configuration, work on not requiring reflashing per program step
-            portB(X,configurationB,programB);
-            n++;
-        
-    }
+    //upload configuration, work on not requiring reflashing per program step
+    //port(program step, configuration,program)
+    portA(0, configurationA, programA);
+    portB(0, configurationB, programB);
+    portA(1, configurationA, programA);
+    portB(1, configurationB, programB);
+    portA(2, configurationA, programA);
+    portB(2, configurationB, programB);
+    portA(3, configurationA, programA);
+    portB(3, configurationB, programB);
+
     //cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
     //manually code program for linked qubits, process logical data according to program(all at once)...
     //A logic gate circuit should be constructed using multiple qubits
