@@ -27,14 +27,14 @@ long long int n = 0;
 //light valve consists of a optical switch and an inline polariser
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
-vector<int> portA(long long int X, vector<string> configuration, vector<int> program, vector<int> data)//Sync n & Partition to time
+vector<int> portA(long long int X, long long int Y, vector<string> configuration, vector<int> program, vector<int> data)//Sync n & Partition to time
 {
 	vector<int> memory;
 	int LVA = 0, LVB = 0;
 	string binA = configuration[program[X]];
 	for (int Partition = 0; Partition != 2; Partition++)
 	{
-		if (data[n] == binA.at(0) - 48)
+		if (data[Y] == binA.at(0) - 48)
 		{
 			if (Partition == binA.at(1) - 48)
 			{
@@ -63,7 +63,7 @@ vector<int> portA(long long int X, vector<string> configuration, vector<int> pro
 				}
 			}
 		}
-		if (data[n] == binA.at(7) - 48)
+		if (data[Y] == binA.at(7) - 48)
 		{
 			if (Partition == binA.at(8) - 48)
 			{
@@ -95,7 +95,7 @@ vector<int> portA(long long int X, vector<string> configuration, vector<int> pro
 	}
 	return memory;
 }
-vector<int> portB(long long int X, vector<string> configuration, vector<int> program, vector<int> data)
+vector<int> portB(long long int X, long long int Y, vector<string> configuration, vector<int> program, vector<int> data)
 {
 	vector<int> memory;
 
@@ -103,7 +103,7 @@ vector<int> portB(long long int X, vector<string> configuration, vector<int> pro
 	string binB = configuration[program[X]];
 	for (int Partition = 0; Partition != 2; Partition++)
 	{
-		if (data[n] == binB.at(0) - 48)
+		if (data[Y] == binB.at(0) - 48)
 		{
 			if (Partition == binB.at(1) - 48)
 			{
@@ -128,7 +128,7 @@ vector<int> portB(long long int X, vector<string> configuration, vector<int> pro
 				}
 			}
 		}
-		if (data[n] == binB.at(7) - 48)
+		if (data[Y] == binB.at(7) - 48)
 		{
 			if (Partition == binB.at(8) - 48)
 			{
@@ -249,18 +249,19 @@ int main()//server
 	};
 	vector<int> dataB =
 	{
-	   1,1,1,1
+		1,1,1,1
 	};
 	//stored values as binary data can be checked using QPU's using an equivalence gate, matched against a binary data packet for assurance
 	//upload configuration, work on not requiring reflashing per program step
 	//add arithmetic iterator, subtraction and addition can be achieved by quantum gates and data, multiplication and division can be achieved doing the same, repeatedly.
-	//port(program step, configuration,program)
-	vector<int> dataC = portA(0, configurationA, programA, dataA);
-	vector<int> dataD = portB(0, configurationA, programA, dataA);
-	if (portA(0, configurationA, programA, dataA) == portB(0, configurationA, programA, dataA)) {
-		if (portA(0, configurationA, programA, dataA) == dataB) {
-			vector<int> dataE = portA(1, configurationA, programA, dataB);
-			vector<int> dataF = portB(1, configurationA, programA, dataB);
+	//greater than is,[XOR],[result AND] to determine first discrepancy in right sweep of binary data
+	//port(program step, data step, configuration,program,data)
+	vector<int> dataC = portA(0, 0, configurationA, programA, dataA);
+	vector<int> dataD = portB(0, 0, configurationA, programA, dataA);
+	if (portA(0, 0, configurationA, programA, dataA) == portB(0, 0, configurationA, programA, dataA)) {
+		if (portA(0, 0, configurationA, programA, dataA) == dataB) {
+			vector<int> dataE = portA(1, 1, configurationA, programA, dataB);
+			vector<int> dataF = portB(1, 1, configurationA, programA, dataB);
 		}
 	}
 	//cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
