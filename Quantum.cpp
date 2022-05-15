@@ -253,11 +253,17 @@ int main()//server
 	};
 	//stored values as binary data can be checked using QPU's using an equivalence gate, matched against a binary data packet for assurance
 	//upload configuration, work on not requiring reflashing per program step
+	//add arithmetic iterator, subtraction and addition can be achieved by quantum gates and data, multiplication and division can be achieved doing the same, repeatedly.
 	//port(program step, configuration,program)
 	vector<int> dataC = portA(0, configurationA, programA, dataA);
 	vector<int> dataD = portB(0, configurationA, programA, dataA);
-	vector<int> dataE = portA(1, configurationA, programA, dataB);
-	vector<int> dataF = portB(1, configurationA, programA, dataB);
+	
+	if (portA(0, configurationA, programA, dataA) == portB(0, configurationA, programA, dataA)) {
+		if (portA(0, configurationA, programA, dataA) == dataB) {
+			vector<int> dataE = portA(1, configurationA, programA, dataB);
+			vector<int> dataF = portB(1, configurationA, programA, dataB);
+		}
+	}
 	//cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
 	//manually code program for linked qubits, process logical data according to program(all at once)...
 	//A logic gate circuit should be constructed using multiple qubits
