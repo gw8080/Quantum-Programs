@@ -241,8 +241,8 @@ int main()//server
 
 	//set program
 	//0 = AND, 1 = XOR, 2 = CNOT , 3 = iterate whole program once with new data, 4 = if statement using next instruction if true, 5 = else if statement, 6 = end if statement
-	vector<int> programA = { 1,1,1,2 };//example program refers to each instruction performed on data linearly according to configuration
-	vector<int> programB = { 0,0,0,2 };//example program refers to each instruction performed on data linearly according to configuration
+	vector<int> programA = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
+	vector<int> programB = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
 	vector<int> dataA =//set data to be processed, store numbers, etc
 	{
 		1,1,1,1
@@ -256,20 +256,20 @@ int main()//server
 	//add arithmetic iterator, subtraction and addition can be achieved by quantum gates and data, multiplication and division can be achieved doing the same, repeatedly.
 	//port(program step, data step, configuration,program,data)
 	//greater than is,[XOR],[result,data, AND] to determine first discrepancy in right sweep of binary data
-	//portA, dataA 00000111 = 1
-	//portB, dataB 00010111 = 0
+	//portA, dataA 00010111 = 1
+	//portB, dataB 00000111 = 0
 	//may produce errors in simulator
 	//requires factoring in the teleport, discreteness limitation cannot satisfy parallel coherence
-	//if the quantum memory is seen then is safe to bypass discreteness limitation for parallel coherence
+	//if the quantum memory is available then is safe to bypass discreteness limitation for parallel coherence
 	for (int m = 0; m < dataA.size(); m++) {
-		vector<int> resultA = portA(1, m, configurationA, programA, dataA);//time-crystal-like causal ordering, repeats pattern among TDM(time domain multiplexing)
-		vector<int> resultB = portB(0, m, configurationB, programA, resultA);//factoring in resultA may cause errors due to uncertainty in randomisation spoof
-		if (resultB[0] == 1) {
-			cout << "dataB is higher";
+		vector<int> resultA = portA(1, m, configurationA, programA, dataA);
+		vector<int> resultB = portB(0, m, configurationB, programA, dataB);
+		if (resultA[0] == 1 && dataB[m] == 0) {
+			cout << endl << "dataA is higher";
 			break;
 		}
-		if (resultB[0] == 0) {
-			cout << "dataA is higher";
+		if (resultA[0] == 1 && dataB[m] == 1) {
+			cout << endl << "dataB is higher";
 			break;
 		}
 	}
