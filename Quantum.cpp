@@ -257,7 +257,6 @@ int main()//server
 	//port(program step, configuration,program)
 	vector<int> dataC = portA(0, configurationA, programA, dataA);
 	vector<int> dataD = portB(0, configurationA, programA, dataA);
-	
 	if (portA(0, configurationA, programA, dataA) == portB(0, configurationA, programA, dataA)) {
 		if (portA(0, configurationA, programA, dataA) == dataB) {
 			vector<int> dataE = portA(1, configurationA, programA, dataB);
