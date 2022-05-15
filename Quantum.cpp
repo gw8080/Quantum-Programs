@@ -254,14 +254,21 @@ int main()//server
 	//stored values as binary data can be checked using QPU's using an equivalence gate, matched against a binary data packet for assurance
 	//upload configuration, work on not requiring reflashing per program step
 	//add arithmetic iterator, subtraction and addition can be achieved by quantum gates and data, multiplication and division can be achieved doing the same, repeatedly.
-	//greater than is,[XOR],[result AND] to determine first discrepancy in right sweep of binary data
 	//port(program step, data step, configuration,program,data)
-	vector<int> dataC = portA(0, 0, configurationA, programA, dataA);
-	vector<int> dataD = portB(0, 0, configurationA, programA, dataA);
-	if (portA(0, 0, configurationA, programA, dataA) == portB(0, 0, configurationA, programA, dataA)) {
-		if (portA(0, 0, configurationA, programA, dataA) == dataB) {
-			vector<int> dataE = portA(1, 1, configurationA, programA, dataB);
-			vector<int> dataF = portB(1, 1, configurationA, programA, dataB);
+	//greater than is,[XOR],[result,data, AND] to determine first discrepancy in right sweep of binary data
+	//portA, dataA 00000111 = 1
+	//portB, dataB 00010111 = 0
+	//may produce errors in simulator
+	for (int m = 0; m < dataA.size(); m++) {
+		vector<int> resultA = portA(1, m, configurationA, programA, dataA);
+		vector<int> resultB = portB(0, m, configurationB, programA, resultA);
+		if (resultB[0] == 1) {
+			cout << "dataB is higher";
+			break;
+		}
+		if (resultB[0] == 0) {
+			cout << "dataA is higher";
+			break;
 		}
 	}
 	//cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
