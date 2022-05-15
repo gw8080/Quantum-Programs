@@ -259,8 +259,9 @@ int main()//server
 	//portA, dataA 00000111 = 1
 	//portB, dataB 00010111 = 0
 	//may produce errors in simulator
+	//requires factoring in the teleport, discreteness limitation cannot satisfy parallel coherence
 	for (int m = 0; m < dataA.size(); m++) {
-		vector<int> resultA = portA(1, m, configurationA, programA, dataA);
+		vector<int> resultA = portA(1, m, configurationA, programA, dataA);//time-crystal-like causal ordering, repeats pattern among TDM(time domain multiplexing)
 		vector<int> resultB = portB(0, m, configurationB, programA, resultA);
 		if (resultB[0] == 1) {
 			cout << "dataB is higher";
