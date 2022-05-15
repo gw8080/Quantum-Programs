@@ -93,7 +93,7 @@ vector<int> portA(long long int X, long long int Y, vector<string> configuration
 		}
 		delay; //partition space on quantum hardware
 	}
-	if (memory.size() > 0 && LMC > 0) {
+	if (memory.size() > 0 && LMC > -1) {
 		if (memory[memory.size() - 1] == data[LMC]) {
 			vector<int> process;
 			process.push_back(1);
@@ -167,7 +167,7 @@ vector<int> portB(long long int X, long long int Y, vector<string> configuration
 		}
 		delay;//partition space on quantum hardware
 	}
-	if (memory.size() > 0 && LMC > 0) {
+	if (memory.size() > 0 && LMC > -1) {
 		if (memory[memory.size() - 1] == data[LMC]) {
 			vector<int> process;
 			process.push_back(1);
@@ -237,7 +237,7 @@ int main()//server
 	configurationA.push_back(binA);
 	configurationB.push_back(binB);
 	//------------------Experimental XOR gate ------------------
-		//------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
+	//------------------Experimental memory transfer gate, essentially a controlled NOT quantum gate ------------------
 	binA = "01000110011101"; // configuration code, should be of all binary combinations for the logic gate, each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
 	//48 is ascii for 0, 49 is 1
 	binB = "";//must be opposite of binA and each should be opposite when mirrored (from the center), except for [logic gate output] locations, which are distributed to each port
@@ -263,9 +263,9 @@ int main()//server
 	configurationB.push_back(binB);
 	//------------------Experimental memory transfer gate ------------------
 	//set program
-	//0 = AND, 1 = XOR, 2 = CNOT , 3 = latest memory is equal to data in pos, return 1 or 0
-	vector<int> programA = { 0,1,2,3 };//example program refers to each instruction performed on data linearly according to configuration
-	vector<int> programB = { 0,1,2,3 };//example program refers to each instruction performed on data linearly according to configuration
+	//0 = AND, 1 = XOR, 2 = CNOT
+	vector<int> programA = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
+	vector<int> programB = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
 	vector<int> dataA =//set data to be processed, store numbers, etc
 	{
 		1,1,1,1
@@ -284,18 +284,19 @@ int main()//server
 	//may produce errors in simulator
 	//requires factoring in the teleport, discreteness limitation cannot satisfy parallel coherence
 	//if the quantum memory is available then is safe to bypass discreteness limitation for parallel coherence
+	vector<int> resultA;
 	for (int m = 0; m < dataA.size(); m++) {
-		vector<int> resultA = portA(1, m, configurationA, programA, dataA, 0);
-		vector<int> resultB = portB(0, m, configurationB, programA, dataB, 0);
-		if (resultA[0] == 1 && dataB[m] == 0) {
+		resultA = portA(1, m, configurationA, programA, dataA, 0);
+		if (resultA[0] == 1) {
 			cout << endl << "dataA is higher";
 			break;
 		}
-		if (resultA[0] == 1 && dataB[m] == 1) {
+		if (resultA[0] == 0) {
 			cout << endl << "dataB is higher";
 			break;
 		}
 	}
+	vector<int> resultX = portB(0, 0, configurationB, programA, resultA, -1);//test
 	//cout << "Stage: " << j << ", Total cycles, classical equivalent: " << ((stats)*(data.size()/2))/2 << endl << "_________________________________________" << endl;
 	//manually code program for linked qubits, process logical data according to program(all at once)...
 	//A logic gate circuit should be constructed using multiple qubits
