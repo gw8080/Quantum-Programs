@@ -27,7 +27,7 @@ long long int n = 0;
 //light valve consists of a optical switch and an inline polariser
 //using logic gate instructions distributed throughout data to process information with other data
 // the basic concept of this quantum computer is an entangled state of the other port is known by detection of entanglement and therefore the time division multiplexing allows telportation of information and the activation of a logic gate via it's truth table implementation assuming correctly configured hardware
-vector<int> portA(long long int X, long long int Y, vector<string> configuration, vector<int> program, vector<int> data)//Sync n & Partition to time
+vector<int> portA(long long int X, long long int Y, vector<string> configuration, vector<int> program, vector<int> data, int LMC)//Sync & Partition to time
 {
 	vector<int> memory;
 	int LVA = 0, LVB = 0;
@@ -93,9 +93,21 @@ vector<int> portA(long long int X, long long int Y, vector<string> configuration
 		}
 		delay; //partition space on quantum hardware
 	}
+	if (memory.size() > 0 && LMC > 0) {
+		if (memory[memory.size() - 1] == data[LMC]) {
+			vector<int> process;
+			process.push_back(1);
+			return process;
+		}
+		if (memory[memory.size() - 1] != data[LMC]) {
+			vector<int> process;
+			process.push_back(0);
+			return process;
+		}
+	}
 	return memory;
 }
-vector<int> portB(long long int X, long long int Y, vector<string> configuration, vector<int> program, vector<int> data)
+vector<int> portB(long long int X, long long int Y, vector<string> configuration, vector<int> program, vector<int> data,int LMC)
 {
 	vector<int> memory;
 
@@ -154,6 +166,18 @@ vector<int> portB(long long int X, long long int Y, vector<string> configuration
 			}
 		}
 		delay;//partition space on quantum hardware
+	}
+	if (memory.size() > 0 && LMC > 0) {
+		if (memory[memory.size() - 1] == data[LMC]) {
+			vector<int> process;
+			process.push_back(1);
+			return process;
+		}
+		if (memory[memory.size() - 1] != data[LMC]) {
+			vector<int> process;
+			process.push_back(0);
+			return process;
+		}
 	}
 	return memory;
 }
@@ -238,11 +262,10 @@ int main()//server
 	configurationA.push_back(binA);
 	configurationB.push_back(binB);
 	//------------------Experimental memory transfer gate ------------------
-
 	//set program
-	//0 = AND, 1 = XOR, 2 = CNOT , 3 = latest memory is equal to data pos, return 1 or 0
-	vector<int> programA = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
-	vector<int> programB = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
+	//0 = AND, 1 = XOR, 2 = CNOT , 3 = latest memory is equal to data in pos, return 1 or 0
+	vector<int> programA = { 0,1,2,3 };//example program refers to each instruction performed on data linearly according to configuration
+	vector<int> programB = { 0,1,2,3 };//example program refers to each instruction performed on data linearly according to configuration
 	vector<int> dataA =//set data to be processed, store numbers, etc
 	{
 		1,1,1,1
@@ -254,7 +277,7 @@ int main()//server
 	//stored values as binary data can be checked using QPU's using an equivalence gate, matched against a binary data packet for assurance
 	//upload configuration, work on not requiring reflashing per program step
 	//add arithmetic iterator, subtraction and addition can be achieved by quantum gates and data, multiplication and division can be achieved doing the same, repeatedly.
-	//port(program step, data step, configuration,program,data)
+	//port(program step, data step, configuration,program,data,latest memory comparator )
 	//greater than is,[XOR],[result,data, AND] to determine first discrepancy in right sweep of binary data
 	//portA, dataA 00010111 = 1
 	//portB, dataB 00000111 = 0
@@ -262,8 +285,8 @@ int main()//server
 	//requires factoring in the teleport, discreteness limitation cannot satisfy parallel coherence
 	//if the quantum memory is available then is safe to bypass discreteness limitation for parallel coherence
 	for (int m = 0; m < dataA.size(); m++) {
-		vector<int> resultA = portA(1, m, configurationA, programA, dataA);
-		vector<int> resultB = portB(0, m, configurationB, programA, dataB);
+		vector<int> resultA = portA(1, m, configurationA, programA, dataA, 0);
+		vector<int> resultB = portB(0, m, configurationB, programA, dataB, 0);
 		if (resultA[0] == 1 && dataB[m] == 0) {
 			cout << endl << "dataA is higher";
 			break;
