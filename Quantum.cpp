@@ -240,7 +240,7 @@ int main()//server
 	//------------------Experimental memory transfer gate ------------------
 
 	//set program
-	//0 = AND, 1 = XOR, 2 = CNOT , 3 = iterate whole program once with new data, 4 = if statement using next instruction if true, 5 = else if statement, 6 = end if statement
+	//0 = AND, 1 = XOR, 2 = CNOT , 3 = latest memory is equal to data pos, return 1 or 0
 	vector<int> programA = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
 	vector<int> programB = { 0,1,2,2 };//example program refers to each instruction performed on data linearly according to configuration
 	vector<int> dataA =//set data to be processed, store numbers, etc
