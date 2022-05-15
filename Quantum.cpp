@@ -263,7 +263,7 @@ int main()//server
 	//if the quantum memory is seen then is safe to bypass discreteness limitation for parallel coherence
 	for (int m = 0; m < dataA.size(); m++) {
 		vector<int> resultA = portA(1, m, configurationA, programA, dataA);//time-crystal-like causal ordering, repeats pattern among TDM(time domain multiplexing)
-		vector<int> resultB = portB(0, m, configurationB, programA, resultA);
+		vector<int> resultB = portB(0, m, configurationB, programA, resultA);//factoring in resultA may cause errors due to uncertainty in randomisation spoof
 		if (resultB[0] == 1) {
 			cout << "dataB is higher";
 			break;
